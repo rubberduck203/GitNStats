@@ -24,11 +24,12 @@ namespace GitNStats
 
                 var changeCounts = new ConcurrentDictionary<String, int>();
 
-                repo.Head.Tip.Walk((commit) =>
+                var visitor = new CommitVisitor();
+                visitor.Visited += (sender, visited) =>
                 {
-                    foreach (var parent in commit.Parents)
+                    foreach (var parent in visited.Parents)
                     {
-                        var diff = repo.Diff.Compare<TreeChanges>(parent.Tree, commit.Tree);
+                        var diff = repo.Diff.Compare<TreeChanges>(parent.Tree, visited.Tree);
 
                         foreach (var changed in diff)
                         {
@@ -36,11 +37,13 @@ namespace GitNStats
                             changeCounts.AddOrUpdate(path, 1, (id, count) => count + 1);
                         }
                     }
-                });
+                };
+
+                visitor.Walk(repo.Head.Tip);
 
                 Console.WriteLine("Change Count\tPath");
                 var sortedCounts = changeCounts.OrderByDescending(rec => rec.Value);
-                foreach(var count in sortedCounts)
+                foreach (var count in sortedCounts)
                 {
                     Console.WriteLine($"{count.Value}\t{count.Key}");
                 }
