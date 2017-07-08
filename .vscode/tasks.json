@@ -15,7 +15,7 @@
         {
             "taskName": "test",
             "args": [
-                "${workspaceRoot}/tests/tests.csproj"
+                "${workspaceRoot}/tests/gitnstats.tests/gitnstats.tests.csproj"
             ],
             "isTestCommand": true
         }
