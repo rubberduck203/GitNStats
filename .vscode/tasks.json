@@ -7,7 +7,7 @@
         {
             "taskName": "build",
             "args": [
-                "${workspaceRoot}/src/gitnstats/gitnstats.csproj"
+                "${workspaceRoot}/gitnstats.sln"
             ],
             "isBuildCommand": true,
             "problemMatcher": "$msCompile"
