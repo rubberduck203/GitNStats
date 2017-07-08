@@ -1,11 +1,13 @@
 using System;
-using Xunit;
-using gitnstats;
-using LibGit2Sharp;
-using Moq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
+using GitNStats;
+using LibGit2Sharp;
+
+using Moq;
+using Xunit;
 
 namespace GitNStats.Tests.TreeExtensions
 {

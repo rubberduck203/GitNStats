@@ -3,7 +3,7 @@ using LibGit2Sharp;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace gitnstats
+namespace GitNStats
 {
     class Program
     {
