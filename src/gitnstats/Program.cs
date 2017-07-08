@@ -13,15 +13,25 @@ namespace GitNStats
 
             //TODO: handle non-existant repo exception
             using (var repo = new Repository(@"/Users/rubberduck/Documents/Source/theupsyde/"))
-            {
+            {    
                 foreach (var commit in repo.Commits.Take(1))
                 {
-                    Console.Write(commit.Sha + "\t");
-                    Console.WriteLine(commit.MessageShort);
-
+                    PrintCommitInfo(commit);
                     PrintFilePathsAt(commit);
                 }
             }
+        }
+
+        private static void PrintCommitTreeInfo(Commit commit) 
+        {
+            PrintCommitInfo(commit);
+            PrintFilePathsAt(commit);
+        }
+
+        private static void PrintCommitInfo(Commit commit)
+        {
+            Console.Write(commit.Sha + "\t");
+            Console.WriteLine(commit.MessageShort);
         }
 
         private static void PrintFilePathsAt(Commit commit)
