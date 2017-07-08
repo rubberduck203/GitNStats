@@ -103,6 +103,41 @@ namespace GitNStats.Tests.Visitor
             Assert.Equal(1, grandParentVisitedCount);
         }
 
+        [Fact]
+        public void CanCallWalkMultipleTimes()
+        {
+            var grandParent = SetupCommit(Enumerable.Empty<Commit>());
+            var grandParents = new List<Commit>() { grandParent.Object };
+
+            var parent1 = SetupCommit(grandParents);
+            var parent2 = SetupCommit(grandParents);
+
+            var parents = new List<Commit>() 
+            {
+                parent1.Object,
+                parent2.Object
+            };
+
+            var commit = SetupCommit(parents);
+            
+            CommitVisitor visitor = new CommitVisitor();
+
+            int visitedCount = 0;
+            int grandParentVisitedCount = 0;
+            visitor.Visited += (sender, visited) => {
+                visitedCount++;
+                if (visited.Sha == grandParent.Object.Sha)
+                {
+                    grandParentVisitedCount++;
+                }
+            };
+
+            visitor.Walk(commit.Object);
+            visitor.Walk(commit.Object);
+
+            Assert.Equal(8, visitedCount);
+            Assert.Equal(2, grandParentVisitedCount);
+        }
         private Mock<Commit> SetupCommit() 
         {
             return SetupCommit(Enumerable.Empty<Commit>());

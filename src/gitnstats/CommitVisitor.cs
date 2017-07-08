@@ -6,10 +6,13 @@ namespace GitNStats
 {
     public class CommitVisitor
     {
-        private HashSet<string> visited = new HashSet<string>();
-        
         public event EventHandler<Commit> Visited;
         public void Walk(Commit commit)
+        {
+            Walk(commit, new HashSet<string>());
+        }
+
+        private void Walk(Commit commit, ISet<string> visited)
         {
             if (visited.Contains(commit.Sha))
             {
@@ -22,7 +25,7 @@ namespace GitNStats
             Visited?.Invoke(this, commit);
             foreach(var parent in commit.Parents)
             {
-                Walk(parent);
+                Walk(parent, visited);
             }
         }
     }
