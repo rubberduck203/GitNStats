@@ -14,21 +14,27 @@ namespace GitNStats
             //TODO: handle non-existant repo exception
             using (var repo = new Repository(@"/Users/rubberduck/Documents/Source/theupsyde/"))
             {    
-                foreach (var commit in repo.Commits.Take(10))
+                // foreach (var commit in repo.Commits.Take(10))
+                // {
+                //     PrintCommitTreeInfo(commit);
+                // }
+
+                repo.Head.Tip.Walk(repo, PrintTreeDiffs);
+            }
+        }
+
+        private static void PrintTreeDiffs(Repository repo, Commit commit)
+        {
+            PrintCommitInfo(commit);
+            foreach(var parent in commit.Parents)
+            {
+                var diff = repo.Diff.Compare<TreeChanges>(parent.Tree, commit.Tree);
+                
+                foreach(var changed in diff)
                 {
-                    PrintCommitInfo(commit);
-                    
-                    foreach(var parent in commit.Parents)
-                    {
-                        var diff = repo.Diff.Compare<TreeChanges>(parent.Tree, commit.Tree);
-                        
-                        foreach(var changed in diff)
-                        {
-                            Console.Write(changed.Path + "\t");
-                            Console.Write(changed.Mode + "\t");
-                            Console.WriteLine(changed.Status);
-                        }
-                    }
+                    Console.Write(changed.Path + "\t");
+                    Console.Write(changed.Mode + "\t");
+                    Console.WriteLine(changed.Status);
                 }
             }
         }
