@@ -6,7 +6,7 @@
    "configurations": [
 
         {
-            "name": ".NET Core Launch (console)",
+            "name": "Debug (console)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",

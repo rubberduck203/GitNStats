@@ -11,6 +11,13 @@
             ],
             "isBuildCommand": true,
             "problemMatcher": "$msCompile"
+        },
+        {
+            "taskName": "test",
+            "args": [
+                "${workspaceRoot}/tests/tests.csproj"
+            ],
+            "isTestCommand": true
         }
     ]
 }
