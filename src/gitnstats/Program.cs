@@ -26,31 +26,11 @@ namespace gitnstats
 
         private static void PrintFilePathsAt(Commit commit)
         {
-            foreach (var treeEntry in Flatten(commit.Tree))
+            foreach (var treeEntry in commit.Tree.Flatten())
             {
                 Console.Write("\t");
                 Console.Write(treeEntry.Path + "\t");
                 Console.WriteLine(treeEntry.TargetType.ToString() + "\t");
-            }
-        }
-
-        private static IEnumerable<TreeEntry> Flatten(Tree tree)
-        {
-            foreach (var treeEntry in tree)
-            {
-                switch (treeEntry.TargetType)
-                {
-                    case TreeEntryTargetType.Blob:
-                    case TreeEntryTargetType.GitLink:
-                        yield return treeEntry;
-                        break;
-                    case TreeEntryTargetType.Tree:
-                        foreach (var innerEntry in Flatten((Tree)treeEntry.Target))
-                        {
-                            yield return innerEntry;
-                        }
-                        break;
-                }
             }
         }
     }
