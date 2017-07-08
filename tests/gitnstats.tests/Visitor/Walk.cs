@@ -19,9 +19,9 @@ namespace GitNStats.Tests.Visitor
             var parents = new List<Commit>();
             var commit = SetupCommit(parents);
             
-            CommitVisitor visitor = new CommitVisitor();
+            var visitor = new CommitVisitor();
 
-            int visitedCount = 0;
+            var visitedCount = 0;
             visitor.Visited += (sender, visited) => visitedCount++;
             visitor.Walk(commit.Object);
 
@@ -37,9 +37,9 @@ namespace GitNStats.Tests.Visitor
             };
             var commit = SetupCommit(parents);
             
-            CommitVisitor visitor = new CommitVisitor();
+            var visitor = new CommitVisitor();
 
-            int visitedCount = 0;
+            var visitedCount = 0;
             visitor.Visited += (sender, visited) => visitedCount++;
 
             visitor.Walk(commit.Object);
@@ -58,9 +58,9 @@ namespace GitNStats.Tests.Visitor
             var commit = new Mock<Commit>();
             commit.Setup(c => c.Parents).Returns(parents);
             
-            CommitVisitor visitor = new CommitVisitor();
+            var visitor = new CommitVisitor();
 
-            int visitedCount = 0;
+            var visitedCount = 0;
             visitor.Visited += (sender, visited) => visitedCount++;
 
             visitor.Walk(commit.Object);
@@ -74,21 +74,18 @@ namespace GitNStats.Tests.Visitor
             var grandParent = SetupCommit(Enumerable.Empty<Commit>());
             var grandParents = new List<Commit>() { grandParent.Object };
 
-            var parent1 = SetupCommit(grandParents);
-            var parent2 = SetupCommit(grandParents);
-
             var parents = new List<Commit>() 
             {
-                parent1.Object,
-                parent2.Object
+                SetupCommit(grandParents).Object,
+                SetupCommit(grandParents).Object
             };
 
             var commit = SetupCommit(parents);
             
-            CommitVisitor visitor = new CommitVisitor();
+            var visitor = new CommitVisitor();
 
-            int visitedCount = 0;
-            int grandParentVisitedCount = 0;
+            var visitedCount = 0;
+            var grandParentVisitedCount = 0;
             visitor.Visited += (sender, visited) => {
                 visitedCount++;
                 if (visited.Sha == grandParent.Object.Sha)
@@ -109,21 +106,18 @@ namespace GitNStats.Tests.Visitor
             var grandParent = SetupCommit(Enumerable.Empty<Commit>());
             var grandParents = new List<Commit>() { grandParent.Object };
 
-            var parent1 = SetupCommit(grandParents);
-            var parent2 = SetupCommit(grandParents);
-
             var parents = new List<Commit>() 
             {
-                parent1.Object,
-                parent2.Object
+                SetupCommit(grandParents).Object,
+                SetupCommit(grandParents).Object
             };
 
             var commit = SetupCommit(parents);
             
-            CommitVisitor visitor = new CommitVisitor();
+            var visitor = new CommitVisitor();
 
-            int visitedCount = 0;
-            int grandParentVisitedCount = 0;
+            var visitedCount = 0;
+            var grandParentVisitedCount = 0;
             visitor.Visited += (sender, visited) => {
                 visitedCount++;
                 if (visited.Sha == grandParent.Object.Sha)
@@ -138,13 +132,15 @@ namespace GitNStats.Tests.Visitor
             Assert.Equal(8, visitedCount);
             Assert.Equal(2, grandParentVisitedCount);
         }
+        
         private Mock<Commit> SetupCommit() 
         {
             return SetupCommit(Enumerable.Empty<Commit>());
         }
+        
         private Mock<Commit> SetupCommit(IEnumerable<Commit> parents)
         {
-            string guid = Guid.NewGuid().ToString();
+            var guid = Guid.NewGuid().ToString();
             var commit = new Mock<Commit>();
             commit.Setup(c => c.Sha).Returns(guid);
             commit.Setup(c => c.Parents).Returns(parents);
