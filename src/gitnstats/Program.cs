@@ -2,6 +2,7 @@
 using LibGit2Sharp;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace GitNStats
 {
@@ -13,24 +14,47 @@ namespace GitNStats
 
             //TODO: handle non-existant repo exception
             using (var repo = new Repository(@"/Users/rubberduck/Documents/Source/theupsyde/"))
-            {    
+            {
                 // foreach (var commit in repo.Commits.Take(10))
                 // {
                 //     PrintCommitTreeInfo(commit);
                 // }
 
-                repo.Head.Tip.Walk(repo, PrintTreeDiffs);
+                // repo.Head.Tip.Walk(repo, PrintTreeDiffs);
+
+                var changeCounts = new ConcurrentDictionary<String, int>();
+
+                repo.Head.Tip.Walk((commit) =>
+                {
+                    foreach (var parent in commit.Parents)
+                    {
+                        var diff = repo.Diff.Compare<TreeChanges>(parent.Tree, commit.Tree);
+
+                        foreach (var changed in diff)
+                        {
+                            var path = changed.Path;
+                            changeCounts.AddOrUpdate(path, 1, (id, count) => count + 1);
+                        }
+                    }
+                });
+
+                Console.WriteLine("Change Count\tPath");
+                var sortedCounts = changeCounts.OrderByDescending(rec => rec.Value);
+                foreach(var count in sortedCounts)
+                {
+                    Console.WriteLine($"{count.Value}\t{count.Key}");
+                }
             }
         }
 
         private static void PrintTreeDiffs(Repository repo, Commit commit)
         {
             PrintCommitInfo(commit);
-            foreach(var parent in commit.Parents)
+            foreach (var parent in commit.Parents)
             {
                 var diff = repo.Diff.Compare<TreeChanges>(parent.Tree, commit.Tree);
-                
-                foreach(var changed in diff)
+
+                foreach (var changed in diff)
                 {
                     Console.Write(changed.Path + "\t");
                     Console.Write(changed.Mode + "\t");
@@ -39,7 +63,7 @@ namespace GitNStats
             }
         }
 
-        private static void PrintCommitTreeInfo(Commit commit) 
+        private static void PrintCommitTreeInfo(Commit commit)
         {
             PrintCommitInfo(commit);
             PrintFilePathsAt(commit);
