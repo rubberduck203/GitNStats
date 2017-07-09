@@ -3,6 +3,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <RootNamespace>GitNStats</RootNamespace>
+    <RuntimeIdentifier>osx.10.12-x64</RuntimeIdentifier>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="libgit2sharp.portable" Version="0.24.10" />

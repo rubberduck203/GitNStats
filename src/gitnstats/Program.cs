@@ -10,8 +10,6 @@ namespace GitNStats
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Git'n'Stats: Git History Analyzer");
-
             //TODO: handle non-existant repo exception
             using (var repo = new Repository(@"/Users/rubberduck/Documents/Source/theupsyde/"))
             {
