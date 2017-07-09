@@ -10,49 +10,83 @@ namespace GitNStats
 {
     class Program
     {
-        static void Main(string[] args)
+        public static int Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(options =>
+            return Parser.Default.ParseArguments<Options>(args)
+                .MapResult(options =>
                 {
                     var repoPath = String.IsNullOrWhiteSpace(options.RepositoryPath)
                         ? Directory.GetCurrentDirectory()
                         : options.RepositoryPath;
                     
-                    RunAnalysis(repoPath);
-                });
+                    return RunAnalysis(repoPath, options.BranchName);
+                }, _ => 1);
         }
 
-        private static void RunAnalysis(string repositoryPath)
+        private static int RunAnalysis(string repositoryPath, string branchName)
         {
-            //TODO: handle non-existant repo exception
-            using (var repo = new Repository(repositoryPath))
+            try
             {
-                var changeCounts = new ConcurrentDictionary<String, int>();
-
-                var visitor = new CommitVisitor();
-                visitor.Visited += (sender, visited) =>
+                using (var repo = new Repository(repositoryPath))
                 {
-                    foreach (var parent in visited.Parents)
+                    var changeCounts = new ConcurrentDictionary<String, int>();
+                    void OnVisited(object sender, Commit visited)
                     {
-                        var diff = repo.Diff.Compare<TreeChanges>(parent.Tree, visited.Tree);
-
-                        foreach (var changed in diff)
+                        foreach (var parent in visited.Parents)
                         {
-                            var path = changed.Path;
-                            changeCounts.AddOrUpdate(path, 1, (id, count) => count + 1);
+                            var diff = repo.Diff.Compare<TreeChanges>(parent.Tree, visited.Tree);
+
+                            foreach (var changed in diff)
+                            {
+                                var path = changed.Path;
+                                changeCounts.AddOrUpdate(path, 1, (id, count) => count + 1);
+                            }
                         }
                     }
-                };
 
-                visitor.Walk(repo.Head.Tip);
+                    var visitor = new CommitVisitor();
+                    visitor.Visited += OnVisited;
 
-                Console.WriteLine("Change Count\tPath");
-                var sortedCounts = changeCounts.OrderByDescending(rec => rec.Value);
-                foreach (var count in sortedCounts)
-                {
-                    Console.WriteLine($"{count.Value}\t{count.Key}");
+                    var branch = (branchName == null) ? repo.Head : repo.Branches[branchName];
+                    if (branch == null)
+                    {
+                        WriteError($"Invalid branch: {branchName}");
+                        return 1;
+                    }
+
+                    Console.WriteLine($"Repository: {repositoryPath}");
+                    Console.WriteLine($"Branch: {branch.FriendlyName}");
+                    Console.WriteLine();
+
+                    visitor.Walk(branch.Tip);
+
+                    Console.WriteLine("Change Count\tPath");
+                    var sortedCounts = changeCounts.OrderByDescending(rec => rec.Value);
+                    foreach (var count in sortedCounts)
+                    {
+                        Console.WriteLine($"{count.Value}\t{count.Key}");
+                    }
+
+                    return 0;
                 }
+            }
+            catch (RepositoryNotFoundException)
+            {
+                WriteError($"{repositoryPath} is not a git repository.");
+                return 1;
+            }
+        }
+
+        private static void WriteError(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            try
+            {
+                Console.Error.WriteLine(message);
+            }
+            finally
+            {
+                Console.ForegroundColor = ConsoleColor.Black;
             }
         }
     }

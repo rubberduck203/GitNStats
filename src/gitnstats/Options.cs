@@ -12,6 +12,8 @@ namespace GitNStats
         [Value(1, HelpText = RepoPathHelpText, MetaName = "FilePath")]
         public string RepositoryPath { get; set; }
         
+        [Option('b', "branch", HelpText = "Defaults to the currently active branch.")]
+        public string BranchName { get; set; }
         
         [Usage]
         public static IEnumerable<Example> Examples 
@@ -20,6 +22,7 @@ namespace GitNStats
             {
                 yield return new Example("Run on current directory", new Options());
                 yield return new Example("Run on specific repository", new Options() { RepositoryPath = "/Users/rubberduck/src/repository"});   
+                yield return new Example("Run on specific branch", new Options(){ BranchName = "develop" });
             }
         }
     }
