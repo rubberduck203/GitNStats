@@ -66,6 +66,7 @@ namespace GitNStats
 
         private static void WriteError(string message)
         {
+            var currentColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
             try
             {
@@ -73,7 +74,7 @@ namespace GitNStats
             }
             finally
             {
-                Console.ForegroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = currentColor;
             }
         }
     }
