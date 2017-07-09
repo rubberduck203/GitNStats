@@ -45,8 +45,7 @@ namespace GitNStats
 
                             foreach (var changed in diff)
                             {
-                                var path = changed.Path;
-                                changeCounts.AddOrUpdate(path, 1, (id, count) => count + 1);
+                                changeCounts.AddOrUpdate(changed.Path, 1, (id, count) => count + 1);
                             }
                         }
                     }
