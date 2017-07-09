@@ -3,6 +3,7 @@ using LibGit2Sharp;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using CommandLine;
 
 namespace GitNStats
 {
@@ -10,8 +11,14 @@ namespace GitNStats
     {
         static void Main(string[] args)
         {
+            Parser.Default.ParseArguments<Options>(args)
+                .WithParsed(options => RunAnalysis(options.RepositoryPath));
+        }
+
+        private static void RunAnalysis(string repositoryPath)
+        {
             //TODO: handle non-existant repo exception
-            using (var repo = new Repository(@"/Users/rubberduck/Documents/Source/theupsyde/"))
+            using (var repo = new Repository(repositoryPath))
             {
                 var changeCounts = new ConcurrentDictionary<String, int>();
 
