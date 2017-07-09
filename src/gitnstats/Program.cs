@@ -29,6 +29,13 @@ namespace GitNStats
             {
                 using (var repo = new Repository(repositoryPath))
                 {
+                    var branch = (branchName == null) ? repo.Head : repo.Branches[branchName];
+                    if (branch == null)
+                    {
+                        WriteError($"Invalid branch: {branchName}");
+                        return 1;
+                    }
+                    
                     var changeCounts = new ConcurrentDictionary<String, int>();
                     void OnVisited(object sender, Commit visited)
                     {
@@ -47,21 +54,14 @@ namespace GitNStats
                     var visitor = new CommitVisitor();
                     visitor.Visited += OnVisited;
 
-                    var branch = (branchName == null) ? repo.Head : repo.Branches[branchName];
-                    if (branch == null)
-                    {
-                        WriteError($"Invalid branch: {branchName}");
-                        return 1;
-                    }
-
                     Console.WriteLine($"Repository: {repositoryPath}");
                     Console.WriteLine($"Branch: {branch.FriendlyName}");
                     Console.WriteLine();
 
                     visitor.Walk(branch.Tip);
 
-                    Console.WriteLine("Change Count\tPath");
                     var sortedCounts = changeCounts.OrderByDescending(rec => rec.Value);
+                    Console.WriteLine("Change Count\tPath");
                     foreach (var count in sortedCounts)
                     {
                         Console.WriteLine($"{count.Value}\t{count.Key}");
