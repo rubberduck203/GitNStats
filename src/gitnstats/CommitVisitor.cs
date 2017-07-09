@@ -6,7 +6,10 @@ namespace GitNStats
 {
     public class CommitVisitor
     {
-        public event EventHandler<Commit> Visited;
+        public delegate void VisitedHandler(CommitVisitor visitor, Commit commit);
+
+        public event VisitedHandler Visited;
+        //public event EventHandler<Commit> Visited;
         public void Walk(Commit commit)
         {
             Walk(commit, new HashSet<string>());

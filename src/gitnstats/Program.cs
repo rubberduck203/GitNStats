@@ -1,8 +1,6 @@
 ﻿using System;
 using LibGit2Sharp;
 using System.Linq;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
 using System.IO;
 using CommandLine;
 
@@ -35,37 +33,27 @@ namespace GitNStats
                         WriteError($"Invalid branch: {branchName}");
                         return 1;
                     }
-                    
-                    var changeCounts = new ConcurrentDictionary<String, int>();
-                    void OnVisited(object sender, Commit visited)
-                    {
-                        foreach (var parent in visited.Parents)
-                        {
-                            var diff = repo.Diff.Compare<TreeChanges>(parent.Tree, visited.Tree);
-
-                            foreach (var changed in diff)
-                            {
-                                changeCounts.AddOrUpdate(changed.Path, 1, (id, count) => count + 1);
-                            }
-                        }
-                    }
-
-                    var visitor = new CommitVisitor();
-                    visitor.Visited += OnVisited;
 
                     Console.WriteLine($"Repository: {repositoryPath}");
                     Console.WriteLine($"Branch: {branch.FriendlyName}");
                     Console.WriteLine();
+                    
+                    var listener = new DiffListener(repo);
+                    var visitor = new CommitVisitor();
+                    visitor.Visited += listener.OnCommitVisited;
 
                     visitor.Walk(branch.Tip);
+                    
+                    var changeCounts = listener.Diffs
+                        .GroupBy(c => c.Path)
+                        .Select(x => new {Path = x.Key, Count = x.Count()})
+                        .OrderByDescending(s => s.Count);
 
-                    var sortedCounts = changeCounts.OrderByDescending(rec => rec.Value);
                     Console.WriteLine("Commits\tPath");
-                    foreach (var count in sortedCounts)
+                    foreach (var summary in changeCounts)
                     {
-                        Console.WriteLine($"{count.Value}\t{count.Key}");
+                        Console.WriteLine($"{summary.Count}\t{summary.Path}");
                     }
-
                     return 0;
                 }
             }
