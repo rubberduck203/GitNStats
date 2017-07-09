@@ -1,11 +1,13 @@
-﻿using System.IO;
+﻿using System;
 using CommandLine;
 
 namespace GitNStats
 {
     public class Options
     {
-        [Value(1, HelpText = "Path to the git repository to analyze", MetaName = "FilePath", Required = true)]
+        private const string RepoPathHelpText = "Path to the git repository to be analyzed. Defaults to the current working directory.";
+        
+        [Value(1, HelpText = RepoPathHelpText, MetaName = "FilePath")]
         public string RepositoryPath { get; set; }
     }
 }

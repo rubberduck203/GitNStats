@@ -3,6 +3,7 @@ using LibGit2Sharp;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.IO;
 using CommandLine;
 
 namespace GitNStats
@@ -12,7 +13,14 @@ namespace GitNStats
         static void Main(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(options => RunAnalysis(options.RepositoryPath));
+                .WithParsed(options =>
+                {
+                    var repoPath = String.IsNullOrWhiteSpace(options.RepositoryPath)
+                        ? Directory.GetCurrentDirectory()
+                        : options.RepositoryPath;
+                    
+                    RunAnalysis(repoPath);
+                });
         }
 
         private static void RunAnalysis(string repositoryPath)
