@@ -6,11 +6,19 @@ using LibGit2Sharp;
 
 namespace GitNStats
 {
-    public class DiffListener
+    /// <summary>
+    /// When a Commit is visited, compares that commit to it's parents 
+    /// and stores the resulting TreeEntryChanges in the <see cref="Diffs"/> property.
+    /// </summary>
+    public class DiffListener : Listener
     {
         private readonly IRepository _repository;
         private readonly ConcurrentBag<TreeEntryChanges> _diffs = new ConcurrentBag<TreeEntryChanges>();
         
+        /// <summary>
+        /// The diff cache. 
+        /// Clients should wait until the <see cref="Visitor"/> is done walking the graph before accessing.
+        /// </summary>
         public IEnumerable<TreeEntryChanges> Diffs => _diffs;
 
         public DiffListener(IRepository repository)
@@ -18,7 +26,12 @@ namespace GitNStats
             _repository = repository;
         }
         
-        public void OnCommitVisited(CommitVisitor visitor, Commit visited)
+        /// <summary>
+        /// Compares the <paramref name="visited"/> commit to it's parents and caches the diffs in <see cref="Diffs"/>.
+        /// </summary>
+        /// <param name="visitor">The <see cref="Visitor"/> that raised the <see cref="Visitor.Visited"/> event.</param>
+        /// <param name="visited">The <see cref="Commit"/> currently being visited.</param>
+        public void OnCommitVisited(Visitor visitor, Commit visited)
         {
             foreach (var parent in visited.Parents)
             {

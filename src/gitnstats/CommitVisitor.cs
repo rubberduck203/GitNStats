@@ -4,13 +4,17 @@ using LibGit2Sharp;
 
 namespace GitNStats
 {
-    public class CommitVisitor
+    /// <summary>
+    /// Walks the commit graph back to the beginning of time.
+    /// Guaranteed to only visit a commit once.
+    /// </summary>
+    public class CommitVisitor : Visitor
     {
-        public delegate void VisitedHandler(CommitVisitor visitor, Commit commit);
-
-        public event VisitedHandler Visited;
-        //public event EventHandler<Commit> Visited;
-        public void Walk(Commit commit)
+        /// <summary>
+        /// Walk the graph from this commit back.
+        /// </summary>
+        /// <param name="commit">The commit to start at.</param>
+        public override void Walk(Commit commit)
         {
             Walk(commit, new HashSet<string>());
         }
@@ -24,8 +28,8 @@ namespace GitNStats
             }
 
             visited.Add(commit.Sha);
-
-            Visited?.Invoke(this, commit);
+            OnVisited(this, commit);
+            
             foreach(var parent in commit.Parents)
             {
                 Walk(parent, visited);
