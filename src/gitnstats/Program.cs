@@ -60,7 +60,7 @@ namespace GitNStats
                     visitor.Walk(branch.Tip);
 
                     var sortedCounts = changeCounts.OrderByDescending(rec => rec.Value);
-                    Console.WriteLine("Change Count\tPath");
+                    Console.WriteLine("Commits\tPath");
                     foreach (var count in sortedCounts)
                     {
                         Console.WriteLine($"{count.Value}\t{count.Key}");
