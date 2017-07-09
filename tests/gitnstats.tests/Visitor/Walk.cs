@@ -1,11 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-
-using GitNStats;
 using LibGit2Sharp;
-
-using Moq;
 using Xunit;
 
 namespace GitNStats.Tests.Visitor
@@ -15,8 +9,7 @@ namespace GitNStats.Tests.Visitor
         [Fact]
         public void NoParents_OnlyVisitsCurrentCommit()
         {
-            var parents = new List<Commit>();
-            var commit = Fakes.Commit(parents);
+            var commit = Fakes.Commit();
             
             var visitor = new CommitVisitor();
 
@@ -30,11 +23,11 @@ namespace GitNStats.Tests.Visitor
         [Fact]
         public void OneParent_VisitsCurrentCommitAndParent()
         {
-            var parents = new List<Commit>() 
-            {
-                Fakes.Commit().Object
-            };
-            var commit = Fakes.Commit(parents);
+            var commit = Fakes.Commit()
+                .WithParents(new List<Commit>() 
+                {
+                    Fakes.Commit().Object
+                });
             
             var visitor = new CommitVisitor();
 
@@ -49,13 +42,12 @@ namespace GitNStats.Tests.Visitor
         [Fact]
         public void TwoParents_VisitsCurrentCommitAndBothParents()
         {
-            var parents = new List<Commit>() 
-            {
-                Fakes.Commit().Object,
-                Fakes.Commit().Object
-            };
-            var commit = new Mock<Commit>();
-            commit.Setup(c => c.Parents).Returns(parents);
+            var commit = Fakes.Commit()
+                .WithParents(new List<Commit>() 
+                {
+                    Fakes.Commit().Object,
+                    Fakes.Commit().Object
+                });
             
             var visitor = new CommitVisitor();
 
@@ -70,16 +62,15 @@ namespace GitNStats.Tests.Visitor
         [Fact]
         public void ParentsShareAParent_OnlyVisitGrandParentOnce()
         {
-            var grandParent = Fakes.Commit(Enumerable.Empty<Commit>());
+            var grandParent = Fakes.Commit();
             var grandParents = new List<Commit>() { grandParent.Object };
 
-            var parents = new List<Commit>() 
-            {
-                Fakes.Commit(grandParents).Object,
-                Fakes.Commit(grandParents).Object
-            };
-
-            var commit = Fakes.Commit(parents);
+            var commit = Fakes.Commit()
+                .WithParents(new List<Commit>() 
+                {
+                    Fakes.Commit().WithParents(grandParents).Object,
+                    Fakes.Commit().WithParents(grandParents).Object
+                });
             
             var visitor = new CommitVisitor();
 
@@ -102,16 +93,15 @@ namespace GitNStats.Tests.Visitor
         [Fact]
         public void CanCallWalkMultipleTimes()
         {
-            var grandParent = Fakes.Commit(Enumerable.Empty<Commit>());
+            var grandParent = Fakes.Commit();
             var grandParents = new List<Commit>() { grandParent.Object };
 
-            var parents = new List<Commit>() 
-            {
-                Fakes.Commit(grandParents).Object,
-                Fakes.Commit(grandParents).Object
-            };
-
-            var commit = Fakes.Commit(parents);
+            var commit = Fakes.Commit()
+                .WithParents(new List<Commit>() 
+                {
+                    Fakes.Commit().WithParents(grandParents).Object,
+                    Fakes.Commit().WithParents(grandParents).Object
+                });
             
             var visitor = new CommitVisitor();
 
