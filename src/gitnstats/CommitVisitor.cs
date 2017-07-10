@@ -21,7 +21,7 @@ namespace GitNStats
 
         private void Walk(Commit commit, ISet<string> visited)
         {
-            if (visited.Contains(commit.Sha))
+            if (!visited.Add(commit.Sha))
             {
                 // Exit so we don't walk the same path multiple times.
                 return;
