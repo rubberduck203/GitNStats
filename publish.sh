@@ -18,15 +18,16 @@ for runtime in ${runtimes[@]}; do
     dotnet publish -c release -r ${runtime}
     
     build=${bin}/${framework}/${runtime}
+    publish=${build}/publish
     
     if [[ ${runtime} != win* ]]; then
-        exe=${build}/publish/gitnstats
+        exe=${publish}/gitnstats
         echo "chmod +x ${exe}"
         chmod +x ${exe}
     fi
     
     archive=${build}.zip
     echo "Compressing to ${archive}"
-    zip ${archive} ${build}/publish/
+    zip ${archive} ${publish}/**
 done
 exit 0
