@@ -28,6 +28,6 @@ for runtime in ${runtimes[@]}; do
     
     archive=${build}.zip
     echo "Compressing to ${archive}"
-    zip ${archive} ${publish}/**
+    zip -r ${archive} ${publish}
 done
 exit 0
