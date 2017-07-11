@@ -20,7 +20,7 @@ for runtime in ${runtimes[@]}; do
     build=${bin}/${framework}/${runtime}
     
     if [[ ${runtime} != win* ]]; then
-        exe=${build}/gitnstats
+        exe=${build}/publish/gitnstats
         echo "chmod +x ${exe}"
         chmod +x ${exe}
     fi
