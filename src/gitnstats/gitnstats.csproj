@@ -15,6 +15,10 @@
     <PackageReference Include="CommandLineParser" Version="2.1.1-beta" />
     <PackageReference Include="libgit2sharp.portable" Version="0.24.10" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\README.md" CopyToPublishDirectory="Always"/>
+    <Content Include="..\..\LICENSE.txt" CopyToPublishDirectory="Always"/>
+  </ItemGroup>
   <PropertyGroup>
     <Authors>Christopher J. McClellan</Authors>
   </PropertyGroup>
