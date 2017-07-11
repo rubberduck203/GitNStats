@@ -7,10 +7,8 @@ bin=src/gitnstats/bin/Release
 echo "Cleaning ${bin}"
 rm -rf ${bin}/**
 
-## It would be smarter to grep the RuntimeIdentifiers to build this list
-## grep '<RuntimeIdentifier>' src/gitnstats/gitnstats.csproj | sed -e 's,.*<RuntimeIdentifier>\([^<]*\)</RuntimeIdentifier>.*,\1,g'
-
-runtimes=(osx.10.12-x64 ubuntu.14.04-x64 ubuntu.16.04-x64 win10-x64)
+# build the list of runtimes by parsing the *.csproj for runtime identifiers
+runtimes=($(grep '<RuntimeIdentifier>' src/gitnstats/gitnstats.csproj | sed -e 's,.*<RuntimeIdentifier>\([^<]*\)</RuntimeIdentifier>.*,\1,g'))
 
 for runtime in ${runtimes[@]}; do
     echo "Restoring ${runtime}"
