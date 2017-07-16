@@ -83,13 +83,14 @@ The integration tests have two purposes.
 1. Verify the self-contained publish works properly for an OS.
 2. Document the .Net runtime dependencies for that OS.
 
+If the tests is successful, you'll see output from the application and a get successful return code of 0.
+All of the dockerfiles assume you have already run the `publish.sh` script. 
+
+#### Ubuntu 16.04
+
 ```bash
 cd src
 
-dotnet build
-
-docker build -t rubberduck/gitnstats:ubuntu16 .
+docker build -f src/ubuntu16.dockerfile -t rubberduck/gitnstats:ubuntu16 src
 docker run rubberduck/gitnstats:ubuntu16
 ```
-
-If the tests is successful, you'll see output from the application and a get successful return code of 0.
