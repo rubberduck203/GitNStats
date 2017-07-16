@@ -45,6 +45,13 @@ ln -s /Users/rubberduck/bin/gitnstats/gitnstats /usr/local/bin/gitnstats
 
 Alternatively, you may want to keep the executable in the `/usr/local/share/` directory.
 
+### .Net Dependencies
+
+This project uses "self-contained" .Net Core deployment.
+"Self contained" is quoted because although the *.zip archive includes the .Net runtime,
+the .Net runtime has dependencies of it's own that need to be available.
+Please see the [list of .Net Core runtime dependencies.][dotnet-deps] and make sure they're installed first. 
+
 ## Build
 
 ```bash
@@ -53,6 +60,8 @@ dotnet build
 ```
 
 ## Tests
+
+### Unit Tests
 
 If you're using VS Code, there's a test task.
 Cmd + P -> `> Tasks: Run Test Task`
@@ -71,3 +80,20 @@ The publish script will package and zip a stand alone executable for each runtim
 ./publish.sh
 ```
 
+### Integration Tests
+
+The integration tests have two purposes.
+
+1. Verify the self-contained publish works properly for an OS.
+2. Document the .Net runtime dependencies for that OS.
+
+```bash
+cd src
+
+dotnet build
+
+docker build -t rubberduck/gitnstats:ubuntu16 .
+docker run rubberduck/gitnstats:ubuntu16
+```
+
+If the tests is successful, you'll see output from the application and a get successful return code of 0.

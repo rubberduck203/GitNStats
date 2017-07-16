@@ -32,8 +32,7 @@
       <sourceFolder url="file://$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.2.0/build/netcoreapp1.0/xunit.runner.visualstudio.dotnetcore.testadapter.dll" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../..">
-      <sourceFolder url="file://$MODULE_DIR$/../../src/gitnstats" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../tests/gitnstats.tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../.." isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/../../packages" />
       <excludeFolder url="file://$MODULE_DIR$/../../src/gitnstats/bin" />
       <excludeFolder url="file://$MODULE_DIR$/../../src/gitnstats/obj" />
