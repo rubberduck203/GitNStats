@@ -48,6 +48,8 @@ This project uses "self-contained" .Net Core deployment.
 the .Net runtime has dependencies of it's own that need to be available.
 Please see the [list of .Net Core runtime dependencies.][dotnet-deps] and make sure they're installed first. 
 
+[dotnet-deps]: https://github.com/dotnet/core/blob/master/Documentation/prereqs.md
+
 ## Build
 
 ```bash
@@ -56,8 +58,6 @@ dotnet build
 ```
 
 ## Tests
-
-### Unit Tests
 
 If you're using VS Code, there's a test task.
 Cmd + P -> `> Tasks: Run Test Task`
