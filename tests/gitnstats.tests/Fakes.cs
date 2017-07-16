@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using LibGit2Sharp;
@@ -27,6 +28,32 @@ namespace GitNStats.Tests
         {
             commit.Setup(c => c.Parents).Returns(parents);
             return commit;
+        }
+        
+        /*
+            I don't really like having TreeChanges and Commit in the same file.
+            But this does provide a very nice `Fakes.Commit().WithParents()`
+            and `Fakes.TreeChanges(somelist)` interface.
+            
+            I'd love to find a way to keep the interface but separate these.
+            I tried using Fake as the namespace, but wasn't happy with the result.
+        */
+        
+        public static Mock<TreeChanges> TreeChanges(IEnumerable<TreeEntryChanges> treeEntryChanges)
+        {
+            var treeChanges = new Mock<TreeChanges>();
+            // Calling GetEnumerator doesn't actually enumerate the collection.
+            // ReSharper disable PossibleMultipleEnumeration
+            treeChanges.Setup(e => e.GetEnumerator())
+                .Returns(treeEntryChanges.GetEnumerator());
+            treeChanges.As<IEnumerable>()
+                .Setup(e => e.GetEnumerator())
+                .Returns(treeEntryChanges.GetEnumerator());
+            treeChanges.As<IEnumerable<TreeEntryChanges>>()
+                .Setup(e => e.GetEnumerator())
+                .Returns(treeEntryChanges.GetEnumerator());
+            // ReSharper restore PossibleMultipleEnumeration
+            return treeChanges;
         }
     }
 }

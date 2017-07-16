@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-
-using GitNStats;
 using LibGit2Sharp;
 using Moq;
 using Xunit;
@@ -26,13 +22,14 @@ namespace GitNStats.Tests
                 treeChangeB.Object
             };
             
-            var expected = TreeChanges(treeEntryChanges);
+            var expected = Fakes.TreeChanges(treeEntryChanges);
 
             var diff = new Mock<Diff>();
             diff.Setup(d => d.Compare<TreeChanges>(It.IsAny<Tree>(), It.IsAny<Tree>()))
                 .Returns(expected.Object);
             var repo = new Mock<IRepository>();
-            repo.Setup(r => r.Diff).Returns(diff.Object);
+            repo.Setup(r => r.Diff)
+                .Returns(diff.Object);
             
             var commit = Fakes.Commit().WithParents().Object;
  
@@ -42,23 +39,6 @@ namespace GitNStats.Tests
             
             //assert
             Assert.Equal(treeEntryChanges, listener.Diffs.ToList().OrderBy(x => x.Path));
-        }
-
-        private static Mock<TreeChanges> TreeChanges(IEnumerable<TreeEntryChanges> treeEntryChanges)
-        {
-            var treeChanges = new Mock<TreeChanges>();
-            // Calling GetEnumerator doesn't actually enumerate the collection.
-            // ReSharper disable PossibleMultipleEnumeration
-            treeChanges.Setup(e => e.GetEnumerator())
-                .Returns(treeEntryChanges.GetEnumerator());
-            treeChanges.As<IEnumerable>()
-                .Setup(e => e.GetEnumerator())
-                .Returns(treeEntryChanges.GetEnumerator());
-            treeChanges.As<IEnumerable<TreeEntryChanges>>()
-                .Setup(e => e.GetEnumerator())
-                .Returns(treeEntryChanges.GetEnumerator());
-            // ReSharper restore PossibleMultipleEnumeration
-            return treeChanges;
         }
     }
 }
