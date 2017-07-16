@@ -86,11 +86,16 @@ The integration tests have two purposes.
 If the tests is successful, you'll see output from the application and a get successful return code of 0.
 All of the dockerfiles assume you have already run the `publish.sh` script. 
 
+#### Ubuntu 14.04
+
+```bash
+docker build -f src/ubuntu14.dockerfile -t rubberduck/gitnstats:ubuntu14 src
+docker run rubberduck/gitnstats:ubuntu14
+```
+
 #### Ubuntu 16.04
 
 ```bash
-cd src
-
 docker build -f src/ubuntu16.dockerfile -t rubberduck/gitnstats:ubuntu16 src
 docker run rubberduck/gitnstats:ubuntu16
 ```

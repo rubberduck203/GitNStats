@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A756E523-B79C-40D0-994D-CEABD8E67613}"
 ProjectSection(SolutionItems) = preProject
 	src\ubuntu16.dockerfile = src\ubuntu16.dockerfile
+	src\ubuntu14.dockerfile = src\ubuntu14.dockerfile
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gitnstats", "src\gitnstats\gitnstats.csproj", "{F9B73133-5937-418C-926A-26739E9FE602}"
