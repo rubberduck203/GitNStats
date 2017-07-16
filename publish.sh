@@ -26,8 +26,12 @@ for runtime in ${runtimes[@]}; do
         chmod +x ${exe}
     fi
     
-    archive=${build}.zip
-    echo "Compressing to ${archive}"
-    zip -r ${archive} ${publish}
+    # subshell so we can specify the archive's root directory
+    (
+        cd ${publish}
+        archive=../../${runtime}.zip
+        echo "Compressing to ${archive}"
+        zip -r ${archive} ./
+    )
 done
 exit 0
