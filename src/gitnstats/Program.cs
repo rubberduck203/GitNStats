@@ -1,8 +1,9 @@
 ﻿using System;
-using LibGit2Sharp;
 using System.Linq;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 using CommandLine;
+using LibGit2Sharp;
 
 namespace GitNStats
 {
@@ -25,7 +26,7 @@ namespace GitNStats
         {
             try
             {
-                using (var repo = new Repository(repositoryPath))
+                using (var repo = new LibGit2Sharp.Repository(repositoryPath))
                 {
                     var branch = (branchName == null) ? repo.Head : repo.Branches[branchName];
                     if (branch == null)
@@ -45,6 +46,7 @@ namespace GitNStats
                     visitor.Walk(branch.Tip);
                     
                     var changeCounts = listener.Diffs
+                        .Select(d => d.Item2)
                         .GroupBy(c => c.Path)
                         .Select(x => new {Path = x.Key, Count = x.Count()})
                         .OrderByDescending(s => s.Count);
@@ -54,10 +56,24 @@ namespace GitNStats
                     {
                         Console.WriteLine($"{summary.Count}\t{summary.Path}");
                     }
+
+//                    var data = listener.Diffs
+//                        .Select(d =>
+//                        {
+//                            var (commit, diff) = d;
+//                            return new {commit.Author, diff.Path};
+//                        })
+//                        .GroupBy(x => new {x.Author.When.Date, x.Path})
+//                        .Select(x => new {x.Key.Path, x.Key.Date, Count = x.Count()});
+//
+//                    foreach (var change in data)
+//                    {
+//                        Console.WriteLine($"{change.Date}\t{change.Count}\t{change.Path}");
+//                    }
                     return 0;
                 }
             }
-            catch (RepositoryNotFoundException)
+            catch (LibGit2Sharp.RepositoryNotFoundException)
             {
                 WriteError($"{repositoryPath} is not a git repository.");
                 return 1;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-
+using System.Linq;
 using LibGit2Sharp;
 
 namespace GitNStats
@@ -13,13 +13,13 @@ namespace GitNStats
     public class DiffListener : Listener
     {
         private readonly IRepository _repository;
-        private readonly ConcurrentBag<TreeEntryChanges> _diffs = new ConcurrentBag<TreeEntryChanges>();
+        private readonly ConcurrentBag<(Commit, TreeEntryChanges)> _diffs = new ConcurrentBag<(Commit, TreeEntryChanges)>();
         
         /// <summary>
         /// The diff cache. 
         /// Clients should wait until the <see cref="Visitor"/> is done walking the graph before accessing.
         /// </summary>
-        public IEnumerable<TreeEntryChanges> Diffs => _diffs;
+        public IEnumerable<(Commit, TreeEntryChanges)> Diffs => _diffs;
 
         public DiffListener(IRepository repository)
         {
@@ -39,7 +39,7 @@ namespace GitNStats
                
                 foreach (var changed in diff)
                 {
-                    _diffs.Add(changed);
+                    _diffs.Add((visited, changed));
                 }
             }
         }
