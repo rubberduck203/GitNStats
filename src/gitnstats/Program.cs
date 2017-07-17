@@ -45,7 +45,7 @@ namespace GitNStats
                     visitor.Walk(branch.Tip);
                     
                     var changeCounts = listener.Diffs
-                        .GroupBy(c => c.Path)
+                        .GroupBy(c => c.Diff.Path)
                         .Select(x => new {Path = x.Key, Count = x.Count()})
                         .OrderByDescending(s => s.Count);
 

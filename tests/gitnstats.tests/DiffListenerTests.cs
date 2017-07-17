@@ -38,7 +38,8 @@ namespace GitNStats.Tests
             listener.OnCommitVisited(new CommitVisitor(), commit);
             
             //assert
-            Assert.Equal(treeEntryChanges, listener.Diffs.ToList().OrderBy(x => x.Path));
+            Assert.Equal(treeEntryChanges, listener.Diffs.ToList().Select(d => d.Item2).OrderBy(change => change.Path));
+            Assert.Equal(commit, listener.Diffs.Select(d => d.Item1).First());
         }
     }
 }
