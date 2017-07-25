@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="RIDER_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/libgit2">
-      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/libgit2" isTestSource="false" />
+    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/libgit2">
+      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/libgit2" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/runtimes/linux-x64/native/libgit2-1196807.so">
-      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/runtimes/linux-x64/native/libgit2-1196807.so" isTestSource="false" />
+    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/runtimes/linux-x64/native/libgit2-15e1193.so">
+      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/runtimes/linux-x64/native/libgit2-15e1193.so" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/runtimes/osx/native/libgit2-1196807.dylib">
-      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/runtimes/osx/native/libgit2-1196807.dylib" isTestSource="false" />
+    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/runtimes/osx/native/libgit2-15e1193.dylib">
+      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/runtimes/osx/native/libgit2-15e1193.dylib" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/runtimes/win7-x64/native/git2-1196807.dll">
-      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/runtimes/win7-x64/native/git2-1196807.dll" isTestSource="false" />
+    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/runtimes/win7-x64/native/git2-15e1193.dll">
+      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/runtimes/win7-x64/native/git2-15e1193.dll" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/runtimes/win7-x64/native/git2-1196807.pdb">
-      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/runtimes/win7-x64/native/git2-1196807.pdb" isTestSource="false" />
+    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/runtimes/win7-x64/native/git2-15e1193.pdb">
+      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/runtimes/win7-x64/native/git2-15e1193.pdb" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/runtimes/win7-x86/native/git2-1196807.dll">
-      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/runtimes/win7-x86/native/git2-1196807.dll" isTestSource="false" />
+    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/runtimes/win7-x86/native/git2-15e1193.dll">
+      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/runtimes/win7-x86/native/git2-15e1193.dll" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/runtimes/win7-x86/native/git2-1196807.pdb">
-      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.165/runtimes/win7-x86/native/git2-1196807.pdb" isTestSource="false" />
+    <content url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/runtimes/win7-x86/native/git2-15e1193.pdb">
+      <sourceFolder url="file://$USER_HOME$/.nuget/packages/libgit2sharp.nativebinaries/1.0.185/runtimes/win7-x86/native/git2-15e1193.pdb" isTestSource="false" />
     </content>
     <content url="file://$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.2.0/build/netcoreapp1.0/xunit.runner.reporters.netstandard15.dll">
       <sourceFolder url="file://$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.2.0/build/netcoreapp1.0/xunit.runner.reporters.netstandard15.dll" isTestSource="false" />
