@@ -6,11 +6,20 @@ using LibGit2Sharp;
 
 namespace GitNStats
 {
+    public interface IDiffListener : Listener
+    {
+        /// <summary>
+        /// The diff cache. 
+        /// Clients should wait until the <see cref="Visitor"/> is done walking the graph before accessing.
+        /// </summary>
+        IEnumerable<(Commit Commit, TreeEntryChanges Diff)> Diffs { get; }
+    }
+
     /// <summary>
     /// When a Commit is visited, compares that commit to it's parents 
     /// and stores the resulting TreeEntryChanges in the <see cref="Diffs"/> property.
     /// </summary>
-    public class DiffListener : Listener
+    public class DiffListener : IDiffListener
     {
         private readonly IRepository _repository;
         private readonly ConcurrentBag<(Commit, TreeEntryChanges)> _diffs = new ConcurrentBag<(Commit, TreeEntryChanges)>();

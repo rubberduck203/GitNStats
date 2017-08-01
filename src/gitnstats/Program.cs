@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using LibGit2Sharp;
 using System.Linq;
 using System.IO;
+using System.Threading.Tasks;
 using CommandLine;
 
 namespace GitNStats
 {
-    class Program
+    partial class Program
     {
         public static int Main(string[] args)
         {
@@ -17,11 +19,11 @@ namespace GitNStats
                         ? Directory.GetCurrentDirectory()
                         : options.RepositoryPath;
                     
-                    return RunAnalysis(repoPath, options.BranchName);
+                    return RunAnalysis(repoPath, options.BranchName).Result;
                 }, _ => 1);
         }
 
-        private static int RunAnalysis(string repositoryPath, string branchName)
+        private static async Task<int> RunAnalysis(string repositoryPath, string branchName)
         {
             try
             {
@@ -34,26 +36,12 @@ namespace GitNStats
                         return 1;
                     }
 
-                    Console.WriteLine($"Repository: {repositoryPath}");
-                    Console.WriteLine($"Branch: {branch.FriendlyName}");
-                    Console.WriteLine();
-                    
-                    var listener = new DiffListener(repo);
-                    var visitor = new CommitVisitor();
-                    visitor.Visited += listener.OnCommitVisited;
+                    PrintRepositoryInfo(repositoryPath, branch);
 
-                    visitor.Walk(branch.Tip);
+                    var walker = new DiffCollector(new CommitVisitor(), new DiffListener(repo));
+                    var diffs = await walker.Walk(branch.Tip);
                     
-                    var changeCounts = listener.Diffs
-                        .GroupBy(c => c.Diff.Path)
-                        .Select(x => new {Path = x.Key, Count = x.Count()})
-                        .OrderByDescending(s => s.Count);
-
-                    Console.WriteLine("Commits\tPath");
-                    foreach (var summary in changeCounts)
-                    {
-                        Console.WriteLine($"{summary.Count}\t{summary.Path}");
-                    }
+                    PrintPathCounts(SummarizeHistory(diffs));
                     return 0;
                 }
             }
@@ -64,6 +52,30 @@ namespace GitNStats
             }
         }
 
+        private static void PrintPathCounts(IEnumerable<PathCount> pathCounts)
+        {
+            Console.WriteLine("Commits\tPath");
+            foreach (var summary in pathCounts)
+            {
+                Console.WriteLine($"{summary.Count}\t{summary.Path}");
+            }
+        }
+
+        private static IEnumerable<PathCount> SummarizeHistory(IEnumerable<(Commit, TreeEntryChanges)> diffs)
+        {
+            return diffs
+                .GroupBy<(Commit Commit, TreeEntryChanges Diff), string>(c => c.Diff.Path)
+                .Select(x => new PathCount(x.Key, x.Count()))
+                .OrderByDescending(s => s.Count);
+        }
+
+        private static void PrintRepositoryInfo(string repositoryPath, Branch branch)
+        {
+            Console.WriteLine($"Repository: {repositoryPath}");
+            Console.WriteLine($"Branch: {branch.FriendlyName}");
+            Console.WriteLine();
+        }
+        
         private static void WriteError(string message)
         {
             var currentColor = Console.ForegroundColor;
