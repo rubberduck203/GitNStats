@@ -1,17 +1,14 @@
 ﻿namespace GitNStats
 {
-    partial class Program
+    public class PathCount
     {
-        internal class PathCount
-        {
-            public string Path { get; }
-            public int Count { get; }
+        public string Path { get; }
+        public int Count { get; }
 
-            public PathCount(string path, int count)
-            {
-                Path = path;
-                Count = count;
-            }
+        public PathCount(string path, int count)
+        {
+            Path = path;
+            Count = count;
         }
     }
 }

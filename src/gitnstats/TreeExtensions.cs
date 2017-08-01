@@ -1,6 +1,5 @@
 using System;
 using LibGit2Sharp;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace GitNStats

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using LibGit2Sharp;
-using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
 using CommandLine;
 
 namespace GitNStats
 {
-    partial class Program
+    static class Program
     {
         public static int Main(string[] args)
         {
@@ -41,7 +40,7 @@ namespace GitNStats
                     var walker = new DiffCollector(new CommitVisitor(), new DiffListener(repo));
                     var diffs = await walker.Walk(branch.Tip);
                     
-                    PrintPathCounts(SummarizeHistory(diffs));
+                    PrintPathCounts(Analysis.CountFileChanges(diffs));
                     return 0;
                 }
             }
@@ -59,14 +58,6 @@ namespace GitNStats
             {
                 Console.WriteLine($"{summary.Count}\t{summary.Path}");
             }
-        }
-
-        private static IEnumerable<PathCount> SummarizeHistory(IEnumerable<(Commit, TreeEntryChanges)> diffs)
-        {
-            return diffs
-                .GroupBy<(Commit Commit, TreeEntryChanges Diff), string>(c => c.Diff.Path)
-                .Select(x => new PathCount(x.Key, x.Count()))
-                .OrderByDescending(s => s.Count);
         }
 
         private static void PrintRepositoryInfo(string repositoryPath, Branch branch)
