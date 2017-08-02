@@ -17,12 +17,19 @@ namespace GitNStats
                     var repoPath = String.IsNullOrWhiteSpace(options.RepositoryPath)
                         ? Directory.GetCurrentDirectory()
                         : options.RepositoryPath;
+
+                    if (options.DateFilter.HasValue)
+                    {
+                        // Comes in as "unspecified", we need to be sure it's specified 
+                        // to get accurate comparisons to a commit's DateTimeOffset
+                        options.DateFilter = DateTime.SpecifyKind(options.DateFilter.Value, DateTimeKind.Local);
+                    }
                     
-                    return RunAnalysis(repoPath, options.BranchName).Result;
+                    return RunAnalysis(repoPath, options.BranchName, options.DateFilter).Result;
                 }, _ => 1);
         }
 
-        private static async Task<int> RunAnalysis(string repositoryPath, string branchName)
+        private static async Task<int> RunAnalysis(string repositoryPath, string branchName, DateTime? dateFilter)
         {
             try
             {
@@ -39,6 +46,11 @@ namespace GitNStats
 
                     var walker = new DiffCollector(new CommitVisitor(), new DiffListener(repo));
                     var diffs = await walker.Walk(branch.Tip);
+
+                    if (dateFilter.HasValue)
+                    {
+                        diffs = diffs.OnOrAfter(dateFilter.Value);
+                    }
                     
                     PrintPathCounts(Analysis.CountFileChanges(diffs));
                     return 0;

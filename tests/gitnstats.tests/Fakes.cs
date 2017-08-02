@@ -38,6 +38,14 @@ namespace GitNStats.Tests
             I'd love to find a way to keep the interface but separate these.
             I tried using Fake as the namespace, but wasn't happy with the result.
         */
+
+        public static Mock<TreeEntryChanges> TreeEntryChanges(string filePath)
+        {
+            var treeChanges = new Mock<TreeEntryChanges>();
+            treeChanges.Setup(t => t.Path).Returns(filePath);
+
+            return treeChanges;
+        }
         
         public static Mock<TreeChanges> TreeChanges(IEnumerable<TreeEntryChanges> treeEntryChanges)
         {

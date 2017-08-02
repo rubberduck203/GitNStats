@@ -15,6 +15,9 @@ namespace GitNStats
         [Option('b', "branch", HelpText = "Defaults to the currently active branch.")]
         public string BranchName { get; set; }
         
+        [Option('d', "date-filter", HelpText = "Specifies the oldest date to return. Defaults to no filter.")]
+        public DateTime? DateFilter { get; set; }
+        
         [Usage]
         public static IEnumerable<Example> Examples 
         {
@@ -23,6 +26,7 @@ namespace GitNStats
                 yield return new Example("Run on current directory", new Options());
                 yield return new Example("Run on specific repository", new Options() { RepositoryPath = "/Users/rubberduck/src/repository"});   
                 yield return new Example("Run on specific branch", new Options(){ BranchName = "develop" });
+                yield return new Example("Specify date filter", new Options(){DateFilter = DateTime.Today});
             }
         }
     }
