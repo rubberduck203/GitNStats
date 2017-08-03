@@ -15,7 +15,7 @@ namespace GitNStats
         [Option('b', "branch", HelpText = "Defaults to the currently active branch.")]
         public string BranchName { get; set; }
         
-        [Option('d', "date-filter", HelpText = "Specifies the oldest date to return. Defaults to no filter.")]
+        [Option('d', "date-filter", HelpText = "Get commits on or after this date. Defaults to no filter.")]
         public DateTime? DateFilter { get; set; }
         
         [Usage]
