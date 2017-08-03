@@ -6,6 +6,14 @@ There are many tools out there, but most of them are interested in commits per a
 GitNStats is an experiment in analyzing how often particular files in a repositor change (and how big those changes were).
 The idea is to discover "hotspots" in a code base by determining which files have a lot of churn.
 
+
+## Quickstart
+
+```bash
+cd path/to/repo
+gitnstats
+```
+
 For usage instruction run:
 
 ```bash
@@ -14,6 +22,14 @@ dotnet run -- --help
 # or if you have a pre-packaged binary
 
 gitnstats --help
+```
+
+Options:
+
+The following command will return all a count of the number of times each file was committed on or after July 14th, 2017 on the develop branch.
+
+```bash
+gitnstats path/to/repo -b develop -d 2017-07-14
 ```
 
 ## Installation
