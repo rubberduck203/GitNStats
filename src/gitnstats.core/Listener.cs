@@ -1,6 +1,6 @@
 ﻿using LibGit2Sharp;
 
-namespace GitNStats
+namespace GitNStats.Core
 {
     /// <summary>
     /// Listens for a <see cref="Visitor"/> to raise the <see cref="Visitor.Visited"/> event.

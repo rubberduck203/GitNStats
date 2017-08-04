@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using LibGit2Sharp;
 
-namespace GitNStats
+namespace GitNStats.Core
 {
     public interface IDiffListener : Listener
     {

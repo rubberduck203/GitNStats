@@ -1,6 +1,6 @@
 ﻿using LibGit2Sharp;
 
-namespace GitNStats
+namespace GitNStats.Core
 {
     public abstract class Visitor
     {

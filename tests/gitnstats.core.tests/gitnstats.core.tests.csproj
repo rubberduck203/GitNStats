@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
-    <RootNamespace>GitNStats.Tests</RootNamespace>
+    <RootNamespace>GitNStats.Core.Tests</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
@@ -11,6 +11,7 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\gitnstats.core\gitnstats.core.csproj" />
     <ProjectReference Include="..\..\src\gitnstats\gitnstats.csproj" />
   </ItemGroup>
 </Project>

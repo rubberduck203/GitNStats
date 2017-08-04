@@ -1,4 +1,4 @@
-﻿namespace GitNStats
+﻿namespace GitNStats.Core
 {
     public class PathCount
     {

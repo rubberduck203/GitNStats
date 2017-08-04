@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LibGit2Sharp;
 
-namespace GitNStats
+namespace GitNStats.Core
 {
     public static class Analysis
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using LibGit2Sharp;
 
-namespace GitNStats
+namespace GitNStats.Core
 {
     /// <summary>
     /// Walks the commit graph back to the beginning of time.

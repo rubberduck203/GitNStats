@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GitNStats.Core;
 using LibGit2Sharp;
 using Moq;
 using Xunit;

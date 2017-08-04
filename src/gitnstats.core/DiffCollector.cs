@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using LibGit2Sharp;
 
-namespace GitNStats
+namespace GitNStats.Core
 {
     public class DiffCollector
     {

@@ -4,6 +4,7 @@ using LibGit2Sharp;
 using System.IO;
 using System.Threading.Tasks;
 using CommandLine;
+using GitNStats.Core;
 
 namespace GitNStats
 {
