@@ -4,7 +4,12 @@ using LibGit2Sharp;
 
 namespace GitNStats.Core
 {
-    public class DiffCollector
+    public interface AsyncVisitor
+    {
+        Task<IEnumerable<(Commit Commit, TreeEntryChanges Diff)>> Walk(Commit commit);
+    }
+
+    public class DiffCollector : AsyncVisitor
     {
         private readonly Visitor _visitor;
         private readonly IDiffListener _listener;

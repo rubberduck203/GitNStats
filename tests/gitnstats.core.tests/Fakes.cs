@@ -5,7 +5,7 @@ using System.Linq;
 using LibGit2Sharp;
 using Moq;
 
-namespace GitNStats.Tests
+namespace GitNStats.Core.Tests
 {
     public static class Fakes
     {
@@ -28,6 +28,19 @@ namespace GitNStats.Tests
         {
             commit.Setup(c => c.Parents).Returns(parents);
             return commit;
+        }
+
+        public static Mock<Commit> WithAuthor(this Mock<Commit> commit, Signature author)
+        {
+            commit.Setup(c => c.Author)
+                .Returns(author);
+
+            return commit;
+        }
+
+        public static Mock<Commit> WithAuthor(this Mock<Commit> commit, DateTimeOffset commitTime)
+        {
+            return commit.WithAuthor(Signature(commitTime));
         }
         
         /*
@@ -62,6 +75,25 @@ namespace GitNStats.Tests
                 .Returns(treeEntryChanges.GetEnumerator());
             // ReSharper restore PossibleMultipleEnumeration
             return treeChanges;
+        }
+
+        public static IEnumerable<(Commit, TreeEntryChanges)> Diffs(Mock<Commit> commit)
+        {
+            var diffs = new List<(Commit, TreeEntryChanges)>()
+            {
+                Diff(commit)
+            };
+            return diffs;
+        }
+
+        public static (Commit, TreeEntryChanges) Diff(Mock<Commit> commit)
+        {
+            return (commit.Object, TreeEntryChanges("path/to/file").Object);
+        }
+
+        public static Signature Signature(DateTimeOffset dateTimeOffset)
+        {
+            return new Signature("rubberduck", "rubberduck@example.com", dateTimeOffset);
         }
     }
 }

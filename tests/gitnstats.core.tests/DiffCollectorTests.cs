@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GitNStats.Core;
+using GitNStats.Core.Tests;
 using LibGit2Sharp;
 using Xunit;
 using Moq;

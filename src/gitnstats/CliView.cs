@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using GitNStats.Core;
+using LibGit2Sharp;
+
+namespace GitNStats
+{
+    public class CliView : View
+    {
+        public void DisplayRepositoryInfo(string repositoryPath, Branch branch)
+        {
+            Console.WriteLine($"Repository: {repositoryPath}");
+            Console.WriteLine($"Branch: {branch.FriendlyName}");
+            Console.WriteLine();
+        }
+
+        public void DisplayPathCounts(IEnumerable<PathCount> pathCounts)
+        {
+            Console.WriteLine("Commits\tPath");
+            foreach (var summary in pathCounts)
+            {
+                Console.WriteLine($"{summary.Count}\t{summary.Path}");
+            }
+        }
+        
+        public void DisplayError(string message)
+        {
+            var currentColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            try
+            {
+                Console.Error.WriteLine(message);
+            }
+            finally
+            {
+                Console.ForegroundColor = currentColor;
+            }
+        }
+    }
+}

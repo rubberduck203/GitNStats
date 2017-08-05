@@ -40,6 +40,8 @@
       <excludeFolder url="file://$MODULE_DIR$/../../src/gitnstats/obj" />
       <excludeFolder url="file://$MODULE_DIR$/../../tests/gitnstats.core.tests/bin" />
       <excludeFolder url="file://$MODULE_DIR$/../../tests/gitnstats.core.tests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../tests/gitnstats.test/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../tests/gitnstats.test/obj" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

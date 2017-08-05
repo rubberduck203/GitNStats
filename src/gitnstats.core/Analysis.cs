@@ -15,13 +15,18 @@ namespace GitNStats.Core
                 .OrderByDescending(s => s.Count);
         }
 
-        public static IEnumerable<(Commit, TreeEntryChanges)> OnOrAfter(this IEnumerable<(Commit Commit, TreeEntryChanges Diff)> diffs, DateTime onOrAfter)
+        /// <summary>
+        /// Predicate for filtering by date
+        /// </summary>
+        /// <param name="onOrAfter">Local DateTime</param>
+        /// <returns>True if Commit was on or after <paramref name="onOrAfter"/>, otherwise false.</returns>
+        public static Func<(Commit Commit, TreeEntryChanges Diff), bool> OnOrAfter(DateTime onOrAfter)
         {
             /* 
              * A Commit could have been recorded in any time zone.
              * We need to convert all DateTimes to UTC to get an accurate comparison.
              */
-            return diffs.Where(d => d.Commit.Author.When.ToUniversalTime() >= onOrAfter.ToUniversalTime());
+            return change => change.Commit.Author.When.ToUniversalTime() >= onOrAfter.ToUniversalTime();
         }
     }
 }

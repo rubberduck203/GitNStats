@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GitNStats.Core;
+using GitNStats.Core.Tests;
 using LibGit2Sharp;
 using Xunit;
 

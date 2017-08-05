@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gitnstats.core", "src\gitns
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gitnstats.core.tests", "tests\gitnstats.core.tests\gitnstats.core.tests.csproj", "{FF96868C-A197-406D-A09A-317356F7C5AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gitnstats.test", "tests\gitnstats.test\gitnstats.test.csproj", "{657F371E-45C7-4745-BCCC-40574283B6C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,10 +68,23 @@ Global
 		{FF96868C-A197-406D-A09A-317356F7C5AF}.Release|x64.Build.0 = Release|x64
 		{FF96868C-A197-406D-A09A-317356F7C5AF}.Release|x86.ActiveCfg = Release|x86
 		{FF96868C-A197-406D-A09A-317356F7C5AF}.Release|x86.Build.0 = Release|x86
+		{657F371E-45C7-4745-BCCC-40574283B6C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{657F371E-45C7-4745-BCCC-40574283B6C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{657F371E-45C7-4745-BCCC-40574283B6C4}.Debug|x64.ActiveCfg = Debug|x64
+		{657F371E-45C7-4745-BCCC-40574283B6C4}.Debug|x64.Build.0 = Debug|x64
+		{657F371E-45C7-4745-BCCC-40574283B6C4}.Debug|x86.ActiveCfg = Debug|x86
+		{657F371E-45C7-4745-BCCC-40574283B6C4}.Debug|x86.Build.0 = Debug|x86
+		{657F371E-45C7-4745-BCCC-40574283B6C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{657F371E-45C7-4745-BCCC-40574283B6C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{657F371E-45C7-4745-BCCC-40574283B6C4}.Release|x64.ActiveCfg = Release|x64
+		{657F371E-45C7-4745-BCCC-40574283B6C4}.Release|x64.Build.0 = Release|x64
+		{657F371E-45C7-4745-BCCC-40574283B6C4}.Release|x86.ActiveCfg = Release|x86
+		{657F371E-45C7-4745-BCCC-40574283B6C4}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F9B73133-5937-418C-926A-26739E9FE602} = {A756E523-B79C-40D0-994D-CEABD8E67613}
 		{88666E24-E7CA-4996-94A5-FB78BDBA985F} = {A756E523-B79C-40D0-994D-CEABD8E67613}
 		{FF96868C-A197-406D-A09A-317356F7C5AF} = {03E9CAAB-BDB2-4F4F-89E3-3D4AFE1B8629}
+		{657F371E-45C7-4745-BCCC-40574283B6C4} = {03E9CAAB-BDB2-4F4F-89E3-3D4AFE1B8629}
 	EndGlobalSection
 EndGlobal
