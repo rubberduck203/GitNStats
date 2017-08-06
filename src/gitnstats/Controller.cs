@@ -36,7 +36,7 @@ namespace GitNStats
             return RunAnalysis(repoPath, options.BranchName, filter);
         }
 
-        private async Task<Result> RunAnalysis(string repositoryPath, string branchName, Func<(Commit, TreeEntryChanges), bool> filter)
+        private async Task<Result> RunAnalysis(string repositoryPath, string branchName, DiffFilterPredicate diffFilter)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace GitNStats
                     _view.DisplayRepositoryInfo(repositoryPath, branch);
 
                     var diffs = await AsyncVisitorFactory(repo).Walk(branch.Tip);
-                    var filteredDiffs = diffs.Where(filter);
+                    var filteredDiffs = diffs.Where(diffFilter.Invoke);
                     
                     _view.DisplayPathCounts(Analysis.CountFileChanges(filteredDiffs));
                     return Result.Success;
@@ -71,17 +71,22 @@ namespace GitNStats
                 ? _fileSystem.CurrentDirectory()
                 : options.RepositoryPath;
         }
-        
-        private static Func<(Commit, TreeEntryChanges), bool> Filter(DateTime? dateFilter)
-        {
-            bool NoFilter((Commit, TreeEntryChanges) diffs) => true;
 
-            return (dateFilter == null)
-                ? NoFilter
-                : Analysis.OnOrAfter(DateTime.SpecifyKind(dateFilter.Value, DateTimeKind.Local));
+        private static DiffFilterPredicate Filter(DateTime? dateFilter)
+        {
+            if (dateFilter == null)
+            {
+                return NoFilter;
+            }
+            return OnOrAfter;
             
-            // Datetime may come in in as "unspecified", we need to be sure it's specified 
-            // to get accurate comparisons to a commit's DateTimeOffset
+            bool NoFilter((Commit, TreeEntryChanges) diffs) => true;
+            bool OnOrAfter((Commit, TreeEntryChanges) diffs)
+            {
+                // Datetime may come in in as "unspecified", we need to be sure it's specified 
+                // to get accurate comparisons to a commit's DateTimeOffset
+                return Analysis.OnOrAfter(DateTime.SpecifyKind(dateFilter.Value, DateTimeKind.Local))(diffs);
+            }
         }
         
         private static Branch Branch(string branchName, IRepository repo)
