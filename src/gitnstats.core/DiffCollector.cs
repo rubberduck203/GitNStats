@@ -28,7 +28,7 @@ namespace GitNStats.Core
                 try
                 {
                     _visitor.Walk(commit);
-                    return Task.FromResult(_listener.Diffs);
+                    return _listener.Diffs;
                 }
                 finally
                 {
