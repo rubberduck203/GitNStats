@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using LibGit2Sharp;
+using static GitNStats.Core.Tooling;
 
 namespace GitNStats.Core
 {
@@ -17,6 +17,7 @@ namespace GitNStats.Core
         public override void Walk(Commit commit)
         {
             Walk(commit, new HashSet<string>());
+            //WithStopWatch(() => Walk(commit, new HashSet<string>()), "Total Time Walking Graph: {0}");
         }
 
         private void Walk(Commit commit, ISet<string> visited)
@@ -28,8 +29,8 @@ namespace GitNStats.Core
             }
 
             OnVisited(this, commit);
-            
-            foreach(var parent in commit.Parents)
+
+            foreach (var parent in commit.Parents)
             {
                 Walk(parent, visited);
             }
