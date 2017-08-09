@@ -27,7 +27,6 @@ namespace GitNStats.Core
                 return;
             }
 
-            visited.Add(commit.Sha);
             OnVisited(this, commit);
             
             foreach(var parent in commit.Parents)
