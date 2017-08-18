@@ -42,15 +42,14 @@ namespace GitNStats.Core
         /// <param name="visited">The <see cref="Commit"/> currently being visited.</param>
         public void OnCommitVisited(Visitor visitor, Commit visited)
         {
-            Parallel.ForEach(visited.Parents, parent =>
-            {
+            foreach(var parent in visited.Parents){
                 var diff = _repository.Diff.Compare<TreeChanges>(parent.Tree, visited.Tree);
-                // Benchmarks say it's faster to do a regular foreach inside the Parallel.ForEach
+                
                 foreach (var changed in diff)
                 {
                     _diffs.Add((visited, changed));
                 }
-            });   
+            }
         }
     }
 }

@@ -39,9 +39,14 @@ namespace GitNStats.Tests
             var listener = new DiffListener(repo.Object);
             listener.OnCommitVisited(new CommitVisitor(), commit);
             
+            var actual = listener.Diffs
+                .Select(d => d.Diff)
+                .OrderBy(change => change.Path)
+                .ToList();
+
             //assert
-            Assert.Equal(treeEntryChanges, listener.Diffs.ToList().Select(d => d.Item2).OrderBy(change => change.Path));
-            Assert.Equal(commit, listener.Diffs.Select(d => d.Item1).First());
+            Assert.Equal(treeEntryChanges, actual);
+            Assert.Equal(commit, listener.Diffs.Select(d => d.Commit).First());
         }
     }
 }
