@@ -19,8 +19,8 @@ namespace GitNStats.Core
         /// <param name="commit">The commit to start at.</param>
         public override void Walk(Commit commit)
         {
-            //Walk(commit, new HashSet<string>());
-            WithStopWatch(() => Walk(commit, new HashSet<string>()), "Total Time Walking Graph: {0}");
+            Walk(commit, new HashSet<string>());
+            //WithStopWatch(() => Walk(commit, new HashSet<string>()), "Total Time Walking Graph: {0}");
         }
 
         private Object padlock = new Object();
