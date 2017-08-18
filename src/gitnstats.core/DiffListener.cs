@@ -42,7 +42,8 @@ namespace GitNStats.Core
         /// <param name="visited">The <see cref="Commit"/> currently being visited.</param>
         public void OnCommitVisited(Visitor visitor, Commit visited)
         {
-            foreach(var parent in visited.Parents){
+            foreach(var parent in visited.Parents)
+            {
                 var diff = _repository.Diff.Compare<TreeChanges>(parent.Tree, visited.Tree);
                 
                 foreach (var changed in diff)

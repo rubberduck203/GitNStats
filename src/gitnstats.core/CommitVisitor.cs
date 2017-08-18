@@ -28,14 +28,12 @@ namespace GitNStats.Core
         {
             // It's not safe to concurrently write to the Set.
             // If two threads hit this at the same time we could visit the same commit twice.
-            bool added;
             lock(padlock)
             {
-                added = visitedCommits.Add(commit.Sha);
+                // If we weren't successful in adding the commit, we've already been here.
+                if(!visitedCommits.Add(commit.Sha)) 
+                    return;
             }
-
-            // If we weren't successful in adding the commit, we've already been here.
-            if (!added) return;
 
             OnVisited(this, commit);
 
