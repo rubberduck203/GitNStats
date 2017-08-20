@@ -6,6 +6,7 @@ There are many tools out there, but most of them are interested in commits per a
 GitNStats is an experiment in analyzing how often particular files in a repositor change (and how big those changes were).
 The idea is to discover "hotspots" in a code base by determining which files have a lot of churn.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/5ncbrrsob8t44bc5/branch/master?svg=true)](https://ci.appveyor.com/project/Rubberduck/gitnstats/branch/master)
 
 ## Quickstart
 
