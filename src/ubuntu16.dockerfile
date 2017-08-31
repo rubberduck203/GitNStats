@@ -21,6 +21,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
  WORKDIR /root/
  RUN git clone https://github.com/rubberduck203/GitNStats
- COPY gitnstats/bin/Release/netcoreapp1.1/ubuntu.16.04-x64/publish/ /root/bin/
+ COPY gitnstats/bin/Release/netcoreapp2.0/ubuntu.16.04-x64/publish/ /root/bin/
  CMD bin/gitnstats GitNStats/
     
