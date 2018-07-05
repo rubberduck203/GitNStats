@@ -111,6 +111,8 @@ gitnstats -q | awk '$1 >= 15'
 
 ## Installation
 
+Obtain the [latest release](https://github.com/rubberduck203/GitNStats/releases/latest).
+
 Unzip the distribution into your target directory.
 The program can be run from this location, added to your PATH, 
 or symbolic linked to a location that is already on your PATH.
@@ -120,7 +122,7 @@ Symoblic linking to a location already on the PATH (like `/usr/local/bin/`) is r
 ```bash
 # Download release (replace version and runtime accordingly)
 cd ~/Downloads
-wget https://github.com/rubberduck203/GitNStats/releases/download/1.0.3/osx.10.12-x64.zip
+wget https://github.com/rubberduck203/GitNStats/releases/download/2.1.0/osx.10.12-x64.zip
 
 # Create directory to keep package
 mkdir -p ~/bin/gitnstats
