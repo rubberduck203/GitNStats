@@ -73,6 +73,16 @@ namespace gitnstats.test
         }
 
         [Fact]
+        public async Task WhenInQuietMode_DoNotDisplayRepositoryInfo()
+        {
+            _view.SetupProperty(v => v.QuietMode, false);
+            var options = new Options() { QuietMode = true };
+            var result = await _controller.RunAnalysis(options);
+
+            Assert.True(_view.Object.QuietMode);
+        }
+
+        [Fact]
         public async Task WhenNoBranchIsSpecified_CurrentBranchNameIsDisplayed()
         {
             var options = new Options();

@@ -7,8 +7,12 @@ namespace GitNStats
 {
     public class CliView : View
     {
+        public bool QuietMode { get; set; }
+
         public void DisplayRepositoryInfo(string repositoryPath, Branch branch)
         {
+            if (QuietMode) return;
+
             Console.WriteLine($"Repository: {repositoryPath}");
             Console.WriteLine($"Branch: {branch.FriendlyName}");
             Console.WriteLine();
@@ -16,7 +20,11 @@ namespace GitNStats
 
         public void DisplayPathCounts(IEnumerable<PathCount> pathCounts)
         {
-            Console.WriteLine("Commits\tPath");
+            if (!QuietMode)
+            {
+                Console.WriteLine("Commits\tPath");
+            }
+
             foreach (var summary in pathCounts)
             {
                 Console.WriteLine($"{summary.Count}\t{summary.Path}");

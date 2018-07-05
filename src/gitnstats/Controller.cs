@@ -30,6 +30,8 @@ namespace GitNStats
 
         public Task<Result> RunAnalysis(Options options)
         {
+            _view.QuietMode = options.QuietMode;
+
             var repoPath = RepositoryPath(options);
             var filter = Filter(options.DateFilter);
             

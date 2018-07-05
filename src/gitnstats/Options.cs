@@ -17,6 +17,9 @@ namespace GitNStats
         
         [Option('d', "date-filter", HelpText = "Get commits on or after this date. Defaults to no filter.")]
         public DateTime? DateFilter { get; set; }
+
+        [Option('q', "quiet", HelpText = "When in quiet mode, repository and branch info is not part of the output. This simplifies further analysis via piping into other command line tools.")]
+        public bool QuietMode { get; set; }
         
         [Usage]
         public static IEnumerable<Example> Examples 
