@@ -82,7 +82,7 @@ Cmd + P -> `> Tasks: Run Test Task`
 Otherwise...
 
 ```bash
-dotnet test tests/gitnstats.tests/gitnstats.tests.csproj
+dotnet test tests/gitnstats.test/gitnstats.test.csproj
 ```
 
 ## Publish
