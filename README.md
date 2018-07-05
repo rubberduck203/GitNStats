@@ -25,12 +25,88 @@ For usage instruction run:
 gitnstats --help
 ```
 
-Options:
+### Philosophy
+
+GitNStats tries to follow [the Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy).
+
+ - Make each program do one thing well.
+ - Expect the output of every program to become the input to another, as yet unknown, program.
+
+This means I've tried to stay light on the options and other bells and whistles.
+
+### Options
+
+#### Date Filter
 
 The following command will return all a count of the number of times each file was committed on or after July 14th, 2017 on the develop branch.
 
 ```bash
 gitnstats path/to/repo -b develop -d 2017-07-14
+```
+
+#### QuietMode
+
+By default, GitNStats will print repository and branch information along with the history analysis.
+However, this can be awkward when piping output into another program, like `sort` for further processing.
+This extra info and column headers can be suppressed with the `-q` switch.
+
+```bash
+gitnstats -q | sort
+```
+
+### Common Operations
+
+I've tried to provide instructions for common use cases below, but as tools differ from OS to OS,
+I've not tested that they work everywhere.
+If something doesn't work on your OS of choice, please open a pull request.
+I don't have a Windows machine at the moment, so equivalent batch and powershell command would be appreciated.
+
+#### Saving to file
+
+Should work on basically every OS I know of, including Windows.
+
+```bash
+gitnstats > filename.txt
+```
+
+#### Sorting
+
+Output is sorted ascending by default.
+
+Descending:
+
+```bash
+gitnstats -q | sort -n
+```
+
+Ascending without headers & branch info:
+
+```bash
+gitnstats -q | sort -nr
+```
+
+#### Display Top N Files
+
+Display the 10 most changed files:
+
+```bash
+gitnstats -q | sort -nr | head -n10
+```
+
+Display the 20 least changed files:
+
+```bash
+gitnstats -q | sort -nr | tail -n20
+```
+
+#### Display Only Files with More than N Commits
+
+You can use awk to filter results.
+The following command will print only records where the first column (the number of commits)
+is greater than or equal to 15.
+
+```bash
+gitnstats -q | awk '$1 >= 15'
 ```
 
 ## Installation
