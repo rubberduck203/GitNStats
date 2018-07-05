@@ -18,7 +18,7 @@ gitnstats
 For usage instruction run:
 
 ```bash
-dotnet run -- --help
+ dotnet run --project src/gitnstats/gitnstats.csproj -- --help
 
 # or if you have a pre-packaged binary
 
