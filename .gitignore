@@ -20,3 +20,6 @@ obj/
 
 # Mac
 .DS_Store
+
+# *nix
+.swp
