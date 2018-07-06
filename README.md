@@ -109,6 +109,23 @@ is greater than or equal to 15.
 gitnstats -q | awk '$1 >= 15'
 ```
 
+#### Filtering
+
+Display files with a specific file extension:
+
+```bash
+gitnstats | grep \\.cs$
+```
+
+`$` indicates end of line.
+The `.` must be escaped with a `\`, but since the shell uses the `\` character as a line continuation, we must escape it as well.
+
+Filter on a directory:
+
+```bash
+gitnstats | grep tests/
+```
+
 ## Installation
 
 Obtain the [latest release](https://github.com/rubberduck203/GitNStats/releases/latest).
