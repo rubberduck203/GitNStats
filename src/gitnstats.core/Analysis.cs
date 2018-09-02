@@ -11,35 +11,20 @@ namespace GitNStats.Core
     {
         public static IEnumerable<PathCount> CountFileChanges(IEnumerable<(Commit, TreeEntryChanges)> diffs)
         {
-            // public static TResult Aggregate<TSource,TAccumulate,TResult> 
-            // (this System.Collections.Generic.IEnumerable<TSource> source, 
-            // TAccumulate seed, 
-            // Func<TAccumulate,TSource,TAccumulate> func, 
-            // Func<TAccumulate,TResult> resultSelector);
-
             return diffs.Aggregate<(Commit Commit, TreeEntryChanges Diff), Dictionary<string, int>>(
                 new Dictionary<string, int>(),
                 (acc, x) => {
                     if (x.Diff.Status == ChangeKind.Renamed) {
-                        var oldCount = acc[x.Diff.OldPath];
+                        acc[x.Diff.Path] = acc[x.Diff.OldPath] + 1;
                         acc.Remove(x.Diff.OldPath);
-                        acc[x.Diff.Path] = oldCount + 1;
                     } else {
-                        if (acc.TryGetValue(x.Diff.Path, out int count)) {
-                            acc[x.Diff.Path] = count + 1;
-                        } else {
-                            acc[x.Diff.Path] = 1;
-                        }
+                        acc[x.Diff.Path] = acc.GetOrDefault(x.Diff.Path, 0) + 1;
                     }
                     return acc;
                 }
-            ).Select(x => new PathCount(x.Key, x.Value))
+            )
+            .Select(x => new PathCount(x.Key, x.Value))
             .OrderByDescending(s => s.Count);
-
-            // return diffs
-            //     .GroupBy<(Commit Commit, TreeEntryChanges Diff), string>(c => c.Diff.Path)
-            //     .Select(x => new PathCount(x.Key, x.Count()))
-            //     .OrderByDescending(s => s.Count);
         }
 
         /// <summary>
@@ -50,6 +35,14 @@ namespace GitNStats.Core
         public static DiffFilterPredicate OnOrAfter(DateTime onOrAfter)
         {
             return change => change.Commit.Author.When.ToUniversalTime() >= onOrAfter.ToUniversalTime();
+        }
+    }
+
+    static class DictionaryExtensions
+    {
+        public static V GetOrDefault<K,V>(this Dictionary<K,V> dictionary, K key, V defaultValue)
+        {
+            return dictionary.TryGetValue(key, out V value) ? value : defaultValue;
         }
     }
 }
