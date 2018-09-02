@@ -26,3 +26,6 @@ after_test:
       bash codecov.sh -f "tests/gitnstats.test/bin/coverage.xml" -f "tests/gitnstats.core.tests/bin/coverage.xml" -t $env:CODECOV_TOKEN
 
       bash publish.sh
+
+artifacts:
+  - path: src/gitnstats/bin/Release/netcoreapp1.1/*.zip
