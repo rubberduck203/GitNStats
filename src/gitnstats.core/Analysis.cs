@@ -16,7 +16,7 @@ namespace GitNStats.Core
                 (acc, x) => {
                     int newCount;
                     if (x.Diff.Status == ChangeKind.Renamed) {
-                        newCount = acc[x.Diff.OldPath] + 1;
+                        newCount = acc.GetOrDefault(x.Diff.OldPath, 0) + 1;
                     } else {
                         newCount = acc.GetOrDefault(x.Diff.Path, 0) + 1;
                     }
