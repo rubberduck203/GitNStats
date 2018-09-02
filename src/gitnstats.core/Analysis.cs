@@ -17,12 +17,16 @@ namespace GitNStats.Core
                     int newCount;
                     if (x.Diff.Status == ChangeKind.Renamed) {
                         newCount = acc[x.Diff.OldPath] + 1;
-                        acc.Remove(x.Diff.OldPath);
                     } else {
                         newCount = acc.GetOrDefault(x.Diff.Path, 0) + 1;
                     }
 
                     acc[x.Diff.Path] = newCount;
+
+                    if (x.Diff.Status == ChangeKind.Renamed) {
+                        acc.Remove(x.Diff.OldPath);
+                    }
+
                     return acc;
                 }
             )
