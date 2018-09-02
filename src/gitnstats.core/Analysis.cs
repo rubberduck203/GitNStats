@@ -12,16 +12,11 @@ namespace GitNStats.Core
         public static IEnumerable<PathCount> CountFileChanges(IEnumerable<(Commit, TreeEntryChanges)> diffs)
         {
             return diffs.Aggregate<(Commit Commit, TreeEntryChanges Diff), Dictionary<string, int>>(
-                new Dictionary<string, int>(),
+                new Dictionary<string, int>(), //filename, count
                 (acc, x) => {
-                    int newCount;
-                    if (x.Diff.Status == ChangeKind.Renamed) {
-                        newCount = acc.GetOrDefault(x.Diff.OldPath, 0) + 1;
-                    } else {
-                        newCount = acc.GetOrDefault(x.Diff.Path, 0) + 1;
-                    }
-
-                    acc[x.Diff.Path] = newCount;
+                    /* OldPath == NewPath when file was created or removed,
+                        so this it's okay to just always use OldPath */
+                    acc[x.Diff.Path] = acc.GetOrDefault(x.Diff.OldPath, 0) + 1;
 
                     if (x.Diff.Status == ChangeKind.Renamed) {
                         acc.Remove(x.Diff.OldPath);
