@@ -2,6 +2,7 @@
 bin/
 obj/
 **/coverage.json
+**/coverage.info
 
 # Rider
 ## User-specific stuff:

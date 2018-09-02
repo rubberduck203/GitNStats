@@ -1,0 +1,6 @@
+{
+    "lcov.path": [
+        "tests/gitnstats.core.tests/bin/coverage.info",
+        "tests/gitnstats.test/bin/coverage.info"
+    ]
+}

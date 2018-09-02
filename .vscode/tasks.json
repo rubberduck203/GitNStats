@@ -19,23 +19,27 @@
         },
         {
             "taskName": "coverage",
+            "isTestCommand": true,
             "suppressTaskName": true,
             "args": [
                 "test",
                 "tests/gitnstats.test/gitnstats.test.csproj",
                 "/p:CollectCoverage=true",
                 "/p:Exclude=\"[gitnstats.core]*,[gitnstats.core.tests]*\"",
-                "/p:CoverletOutput='./bin/'"
+                "/p:CoverletOutput=./bin/coverage.info",
+                "/p:CoverletOutputFormat=lcov"
             ]
         },
         {
             "taskName": "coverage-core",
+            "isTestCommand": true,
             "suppressTaskName": true,
             "args": [
                 "test",
                 "tests/gitnstats.core.tests/gitnstats.core.tests.csproj",
                 "/p:CollectCoverage=true",
-                "/p:CoverletOutput='./bin/'"
+                "/p:CoverletOutput=./bin/coverage.info",
+                "/p:CoverletOutputFormat=lcov"
             ]
         }
     ]

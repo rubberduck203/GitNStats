@@ -180,6 +180,11 @@ Otherwise...
 dotnet test tests/gitnstats.test/gitnstats.test.csproj
 ```
 
+### Code Coverage
+
+If you use the Task Runner in VSCode, you can generate lcov reports and use the [lcov extension](https://marketplace.visualstudio.com/items?itemName=alexdima.vscode-lcov) to view the code coverage.
+Theoretically, [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters) should work too, but I was having difficulty getting it to work.
+
 ## Publish
 
 The publish script will package and zip a stand alone executable for each runtime specified in the *.csproj.
