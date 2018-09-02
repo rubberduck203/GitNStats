@@ -2,7 +2,7 @@
 
 dotnet test tests/gitnstats.test/gitnstats.test.csproj \
     /p:CollectCoverage=true \
-    /p:Exclude=\"[gitnstats.core]*,[gitnstats.core.tests]*\" \
+    /p:Exclude=\"[gitnstats.core]*,[gitnstats.core.tests]*,[gitnstats]GitNStats.CliView,[gitnstats]GitNStats.Program,[gitnstats]GitNStats.Options,[gitnstats]GitNStats.FileSystem\" \
     /p:CoverletOutput=./bin/ \
     /p:CoverletOutputFormat=\"json,opencover,lcov\"
 
