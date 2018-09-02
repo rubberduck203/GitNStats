@@ -29,3 +29,15 @@ after_test:
 
 artifacts:
   - path: src/gitnstats/bin/Release/netcoreapp1.1/*.zip
+
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: i+IBglyD6O3Vt5Ob04IRcwanRCbCkD+f8dZCgpI9w0UQKSCxvOgqwzFjuMgxB1gu
+#   artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
+  description: 'Mandatory Field -- Write a Release description'
+  draft: true
+  prerelease: false
+  on:
+    branch: improve-ci                 # change back to master
+    appveyor_repo_tag: true        # deploy on tag push only
