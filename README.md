@@ -140,7 +140,7 @@ Symoblic linking to a location already on the PATH (like `/usr/local/bin/`) is r
 ```bash
 # Download release (replace version and runtime accordingly)
 cd ~/Downloads
-wget https://github.com/rubberduck203/GitNStats/releases/download/2.1.0/osx.10.12-x64.zip
+wget https://github.com/rubberduck203/GitNStats/releases/download/2.1.1/osx.10.12-x64.zip
 
 # Create directory to keep package
 mkdir -p ~/bin/gitnstats
@@ -187,6 +187,12 @@ If you use the Task Runner in VSCode, you can generate lcov reports and use the 
 Theoretically, [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters) should work too, but I was having difficulty getting it to work.
 
 ## Publish
+
+To maintain compatibility with our build server, we use 7zip to create the archive.
+
+```bash
+brew install p7zip
+```
 
 The publish script will package and zip a stand alone executable for each runtime specified in the *.csproj.
 

@@ -31,7 +31,7 @@ for runtime in ${runtimes[@]}; do
         cd ${publish}
         archive=../../${runtime}.zip
         echo "Compressing to ${archive}"
-        zip -r ${archive} ./
+        7z a ${archive} ./
     )
 done
 exit 0
