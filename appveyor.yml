@@ -40,4 +40,4 @@ deploy:
   prerelease: false
   on:
     branch: improve-ci                 # change back to master
-    appveyor_repo_tag: true        # deploy on tag push only
+    appveyor_repo_tag: false        # deploy on tag push only - change back to true
