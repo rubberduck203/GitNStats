@@ -56,7 +56,8 @@ namespace GitNStats.Core.Tests
         {
             var treeChanges = new Mock<TreeEntryChanges>();
             treeChanges.Setup(t => t.Path).Returns(filePath);
-
+            treeChanges.Setup(t => t.Status).Returns(ChangeKind.Modified);
+            
             return treeChanges;
         }
         
