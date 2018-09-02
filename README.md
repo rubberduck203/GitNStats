@@ -7,6 +7,7 @@ GitNStats is an experiment in analyzing how often particular files in a reposito
 The idea is to discover "hotspots" in a code base by determining which files have a lot of churn.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/5ncbrrsob8t44bc5/branch/master?svg=true)](https://ci.appveyor.com/project/Rubberduck/gitnstats/branch/master)
+[![codecov](https://codecov.io/gh/rubberduck203/GitNStats/branch/master/graph/badge.svg)](https://codecov.io/gh/rubberduck203/GitNStats)
 
 ## Quickstart
 

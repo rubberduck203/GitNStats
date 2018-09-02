@@ -3,6 +3,9 @@ pull_requests:
   do_not_increment_build_number: true
 image: Visual Studio 2017
 configuration: Release
+environment:
+  CODECOV_TOKEN:
+    secure: XqcH4XNIcPF1EAuxfTCmhxV4f4GlLbcYMwY9awynisZu860oD8kb79jyrNzhspU6
 init:
 - cmd: tzutil /s "Eastern Standard Time"
 build_script:
@@ -12,6 +15,12 @@ build_script:
     dotnet build -c Release
 test_script:
 - cmd: >-
-    dotnet test tests/gitnstats.core.tests/gitnstats.core.tests.csproj
+    dotnet test tests/gitnstats.test/gitnstats.test.csproj /p:CollectCoverage=true /p:Exclude=\"[gitnstats.core]*,[gitnstats.core.tests]*\" /p:CoverletOutput=./bin/coverage.xml /p:CoverletOutputFormat="opencover"
     
-    dotnet test tests/gitnstats.test/gitnstats.test.csproj
+    dotnet test tests/gitnstats.core.tests/gitnstats.core.tests.csproj /p:CollectCoverage=true /p:CoverletOutput=./bin/coverage.xml /p:CoverletOutputFormat="opencover"
+
+after_test:
+  - ps: |
+      $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
+      Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+      bash codecov.sh -f "tests/gitnstats.test/bin/coverage.xml" -f "tests/gitnstats.core.tests/bin/coverage.xml" -t $env:CODECOV_TOKEN
