@@ -14,12 +14,15 @@ namespace GitNStats.Core
             return diffs.Aggregate<(Commit Commit, TreeEntryChanges Diff), Dictionary<string, int>>(
                 new Dictionary<string, int>(),
                 (acc, x) => {
+                    int newCount;
                     if (x.Diff.Status == ChangeKind.Renamed) {
-                        acc[x.Diff.Path] = acc[x.Diff.OldPath] + 1;
+                        newCount = acc[x.Diff.OldPath] + 1;
                         acc.Remove(x.Diff.OldPath);
                     } else {
-                        acc[x.Diff.Path] = acc.GetOrDefault(x.Diff.Path, 0) + 1;
+                        newCount = acc.GetOrDefault(x.Diff.Path, 0) + 1;
                     }
+
+                    acc[x.Diff.Path] = newCount;
                     return acc;
                 }
             )
