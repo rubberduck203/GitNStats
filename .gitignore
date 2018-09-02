@@ -1,6 +1,7 @@
 # Build output
 bin/
 obj/
+**/coverage.json
 
 # Rider
 ## User-specific stuff:

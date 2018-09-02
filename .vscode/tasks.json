@@ -16,6 +16,27 @@
             "taskName": "test",
             "args": [],
             "isTestCommand": true
+        },
+        {
+            "taskName": "coverage",
+            "suppressTaskName": true,
+            "args": [
+                "test",
+                "tests/gitnstats.test/gitnstats.test.csproj",
+                "/p:CollectCoverage=true",
+                "/p:Exclude=\"[gitnstats.core]*,[gitnstats.core.tests]*\"",
+                "/p:CoverletOutput='./bin/'"
+            ]
+        },
+        {
+            "taskName": "coverage-core",
+            "suppressTaskName": true,
+            "args": [
+                "test",
+                "tests/gitnstats.core.tests/gitnstats.core.tests.csproj",
+                "/p:CollectCoverage=true",
+                "/p:CoverletOutput='./bin/'"
+            ]
         }
     ]
 }

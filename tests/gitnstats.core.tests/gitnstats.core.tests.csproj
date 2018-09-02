@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <RootNamespace>GitNStats.Core.Tests</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="coverlet.msbuild" Version="2.2.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
     <PackageReference Include="moq" Version="4.7.63" />
     <PackageReference Include="System.ValueTuple" Version="4.3.1" />
@@ -12,6 +13,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\gitnstats.core\gitnstats.core.csproj" />
-    <ProjectReference Include="..\..\src\gitnstats\gitnstats.csproj" />
   </ItemGroup>
 </Project>
