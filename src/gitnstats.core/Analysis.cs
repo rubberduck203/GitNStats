@@ -11,12 +11,22 @@ namespace GitNStats.Core
     {
         public static IEnumerable<PathCount> CountFileChanges(IEnumerable<(Commit, TreeEntryChanges)> diffs)
         {
+            // Union must take an IEnumerable
+            IEnumerable<KeyValuePair<K, V>> KeyValuePairEnumerable<K, V>(K key, V value) => 
+                Enumerable.Repeat(new KeyValuePair<K, V>(key, value), 1);
+
+            IEnumerable<KeyValuePair<string, int>> IncrementedPathCount(Dictionary<string, int> pathcounts, string currentPath, string lastPath) =>
+                KeyValuePairEnumerable(currentPath, pathcounts.GetOrDefault(lastPath, 0) + 1);
+
+            bool NotRenamed(KeyValuePair<string, int> kv, TreeEntryChanges diff) => 
+                diff.Status != ChangeKind.Renamed || (diff.Status == ChangeKind.Renamed && kv.Key != diff.OldPath);
+
             return diffs.Aggregate<(Commit Commit, TreeEntryChanges Diff), Dictionary<string, int>>(
                 new Dictionary<string, int>(), //filename, count
                 (acc, x) =>
-                    acc.Where(kv => kv.Key != x.Diff.Path)
-                        .Union(Enumerable.Repeat(new KeyValuePair<string, int>(x.Diff.Path, acc.GetOrDefault(x.Diff.OldPath, 0) + 1), 1))
-                        .Where(kv => x.Diff.Status != ChangeKind.Renamed || (x.Diff.Status == ChangeKind.Renamed && kv.Key != x.Diff.OldPath))
+                    acc.Where(kv => kv.Key != x.Diff.Path)                              //All records except the current one
+                        .Union(IncrementedPathCount(acc, x.Diff.Path, x.Diff.OldPath))  //Plus the current one, renamed if applicable
+                        .Where(kv => NotRenamed(kv, x.Diff))                            //Strip away obsolete file names
                         .ToDictionary(kv => kv.Key, kv => kv.Value)
 
             )
