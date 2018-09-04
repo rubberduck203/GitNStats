@@ -3,6 +3,7 @@ bin/
 obj/
 **/coverage.json
 **/coverage.info
+**/lcov.info
 
 # Rider
 ## User-specific stuff:

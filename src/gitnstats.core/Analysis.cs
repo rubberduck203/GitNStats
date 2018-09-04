@@ -13,17 +13,12 @@ namespace GitNStats.Core
         {
             return diffs.Aggregate<(Commit Commit, TreeEntryChanges Diff), Dictionary<string, int>>(
                 new Dictionary<string, int>(), //filename, count
-                (acc, x) => {
-                    /* OldPath == NewPath when file was created or removed,
-                        so this it's okay to just always use OldPath */
-                    acc[x.Diff.Path] = acc.GetOrDefault(x.Diff.OldPath, 0) + 1;
+                (acc, x) =>
+                    acc.Where(kv => kv.Key != x.Diff.Path)
+                        .Union(Enumerable.Repeat(new KeyValuePair<string, int>(x.Diff.Path, acc.GetOrDefault(x.Diff.OldPath, 0) + 1), 1))
+                        .Where(kv => x.Diff.Status != ChangeKind.Renamed || (x.Diff.Status == ChangeKind.Renamed && kv.Key != x.Diff.OldPath))
+                        .ToDictionary(kv => kv.Key, kv => kv.Value)
 
-                    if (x.Diff.Status == ChangeKind.Renamed) {
-                        acc.Remove(x.Diff.OldPath);
-                    }
-
-                    return acc;
-                }
             )
             .Select(x => new PathCount(x.Key, x.Value))
             .OrderByDescending(s => s.Count);
