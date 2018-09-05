@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using LibGit2Sharp;
 
+using GitNStats.CommitAnalysis;
+using PathCount = GitNStats.CommitAnalysis.FileChanges.PathCount;
+
 namespace GitNStats.Core
 {
     public delegate bool DiffFilterPredicate((Commit Commit, TreeEntryChanges TreeEntryChanges) diff);
@@ -11,27 +14,10 @@ namespace GitNStats.Core
     {
         public static IEnumerable<PathCount> CountFileChanges(IEnumerable<(Commit, TreeEntryChanges)> diffs)
         {
-            // Union must take an IEnumerable
-            IEnumerable<KeyValuePair<K, V>> KeyValuePairEnumerable<K, V>(K key, V value) => 
-                Enumerable.Repeat(new KeyValuePair<K, V>(key, value), 1);
+            var treeChanges = diffs.Select(x => x.Item2);
+            return FileChanges.Count(treeChanges)
+                    .OrderByDescending(s => s.Count);
 
-            IEnumerable<KeyValuePair<string, int>> IncrementedPathCount(Dictionary<string, int> pathcounts, string currentPath, string lastPath) =>
-                KeyValuePairEnumerable(currentPath, pathcounts.GetOrDefault(lastPath, 0) + 1);
-
-            bool NotRenamed(KeyValuePair<string, int> kv, TreeEntryChanges diff) => 
-                diff.Status != ChangeKind.Renamed || (diff.Status == ChangeKind.Renamed && kv.Key != diff.OldPath);
-
-            return diffs.Aggregate<(Commit Commit, TreeEntryChanges Diff), Dictionary<string, int>>(
-                new Dictionary<string, int>(), //filename, count
-                (acc, x) =>
-                    acc.Where(kv => kv.Key != x.Diff.Path)                              //All records except the current one
-                        .Union(IncrementedPathCount(acc, x.Diff.Path, x.Diff.OldPath))  //Plus the current one, renamed if applicable
-                        .Where(kv => NotRenamed(kv, x.Diff))                            //Strip away obsolete file names
-                        .ToDictionary(kv => kv.Key, kv => kv.Value)
-
-            )
-            .Select(x => new PathCount(x.Key, x.Value))
-            .OrderByDescending(s => s.Count);
         }
 
         /// <summary>

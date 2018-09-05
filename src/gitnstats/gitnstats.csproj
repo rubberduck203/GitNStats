@@ -22,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\gitnstats.core\gitnstats.core.csproj" />
+    <ProjectReference Include="..\gitnstats.analysis\gitnstats.analysis.fsproj" />
   </ItemGroup>
   <PropertyGroup>
     <Authors>Christopher J. McClellan</Authors>

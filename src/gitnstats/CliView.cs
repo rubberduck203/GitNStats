@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using GitNStats.Core;
 using LibGit2Sharp;
 
+using PathCount = GitNStats.CommitAnalysis.FileChanges.PathCount;
+
 namespace GitNStats
 {
     public class CliView : View
