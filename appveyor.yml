@@ -1,7 +1,7 @@
 version: 2.1.1.{build}
 pull_requests:
   do_not_increment_build_number: true
-image: Visual Studio 2017
+image: Visual Studio 2019
 configuration: Release
 environment:
   CODECOV_TOKEN:
@@ -28,7 +28,7 @@ after_test:
       bash publish.sh
 
 artifacts:
-  - path: src/gitnstats/bin/Release/netcoreapp1.1/*.zip
+  - path: src/gitnstats/bin/Release/netcoreapp3.1/*.zip
 
 deploy:
   provider: GitHub
