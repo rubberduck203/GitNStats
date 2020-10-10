@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -e
 
-framework=netcoreapp1.1
+framework=netcoreapp3.1
 bin=src/gitnstats/bin/Release
 
 echo "Cleaning ${bin}"
 rm -rf ${bin}/**
 
 # build the list of runtimes by parsing the *.csproj for runtime identifiers
-runtimes=($(grep '<RuntimeIdentifier>' src/gitnstats/gitnstats.csproj | sed -e 's,.*<RuntimeIdentifier>\([^<]*\)</RuntimeIdentifier>.*,\1,g'))
+IFS=';' read -ra runtimes <<< "$(grep '<RuntimeIdentifiers>' src/gitnstats/gitnstats.csproj | sed -e 's,.*<RuntimeIdentifiers>\([^<]*\)</RuntimeIdentifiers>.*,\1,g')"
 
 for runtime in ${runtimes[@]}; do
     echo "Restoring ${runtime}"
