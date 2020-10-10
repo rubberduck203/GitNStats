@@ -33,7 +33,7 @@ artifacts:
 deploy:
   provider: GitHub
   auth_token:
-    secure: i+IBglyD6O3Vt5Ob04IRcwanRCbCkD+f8dZCgpI9w0UQKSCxvOgqwzFjuMgxB1gu
+    secure: qCdYmo3GpVijXI13X6CBM7J3JEArOF2QgWOOQ4pve74wnW2+yAt6mf8uIyDg7DMg
   tag: $(appveyor_repo_tag_name)
   draft: true
   prerelease: false
