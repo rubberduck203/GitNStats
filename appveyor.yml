@@ -6,8 +6,6 @@ configuration: Release
 environment:
   CODECOV_TOKEN:
     secure: XqcH4XNIcPF1EAuxfTCmhxV4f4GlLbcYMwY9awynisZu860oD8kb79jyrNzhspU6
-init:
-- cmd: tzutil /s "Eastern Standard Time"
 build_script:
 - cmd: >-
     dotnet restore
