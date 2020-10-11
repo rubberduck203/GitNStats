@@ -10,38 +10,42 @@ namespace GitNStats.Tests.Analysis
 {
     public class DateFilter
     {   
+        static TimeSpan AdtOffset = new TimeSpan(-3,0,0);
+        static TimeSpan EstOffset = new TimeSpan(-4,0,0);
+        static TimeSpan CstOffset = new TimeSpan(-6,0,0);
+
+        static DateTime TestTime = new DateTime(2017,6,21,13,30,0);
+
         [Fact]
         public void LaterThanFilter_ReturnsTrue()
         {
-            var commit = Commit().WithAuthor(DateTimeOffset.Parse("2017-06-22 13:30 -4:00"));
-            var predicate = OnOrAfter(new DateTime(2017, 6, 21));
+            var commitTime = new DateTimeOffset(TestTime, EstOffset) + TimeSpan.FromDays(1);
+            var commit = Commit().WithAuthor(commitTime);
+            var predicate = OnOrAfter(TestTime.Date);
             Assert.True(predicate(Diff(commit)));
         }
         
         [Fact]
         public void PriorToFilter_ReturnsFalse()
         {
-            var commit = Commit().WithAuthor(DateTimeOffset.Parse("2017-06-20 13:30 -4:00"));
-            var predicate = OnOrAfter(new DateTime(2017, 6, 21));
+            var commitTime = new DateTimeOffset(TestTime, EstOffset) - TimeSpan.FromDays(1);
+            var commit = Commit().WithAuthor(commitTime);
+            var predicate = OnOrAfter(TestTime.Date);
             Assert.False(predicate(Diff(commit)));
         }
 
         [Fact]
         public void GivenTimeInESTAndCommitWasInADT_ReturnsFalse()
         {
-            var datetime = new DateTime(2017,6,21,13,30,0);
-            var adtOffset = new TimeSpan(-3,0,0);
-            var estOffset = new TimeSpan(-4,0,0);
-
-            var commit = Commit().WithAuthor(new DateTimeOffset(datetime, adtOffset));
-            var predicate = OnOrAfter(new DateTimeOffset(datetime,estOffset).LocalDateTime);
+            var commit = Commit().WithAuthor(new DateTimeOffset(TestTime, AdtOffset));
+            var predicate = OnOrAfter(new DateTimeOffset(TestTime, EstOffset).LocalDateTime);
             Assert.False(predicate(Diff(commit)));
         }
 
         [Fact]
         public void WhenEqualTo_ReturnTrue()
         {
-            var commitTime = DateTimeOffset.Parse("2017-06-21 13:30 -4:00");
+            var commitTime = new DateTimeOffset(TestTime, EstOffset);
             var commit = Commit().WithAuthor(commitTime);
             var predicate = OnOrAfter(commitTime.LocalDateTime);
             Assert.True(predicate(Diff(commit)));
@@ -50,12 +54,8 @@ namespace GitNStats.Tests.Analysis
         [Fact]
         public void GivenTimeInESTAndCommitWasCST_ReturnsTrue()
         {
-            var datetime = new DateTime(2017,6,21,13,30,0);
-            var cstOffset = new TimeSpan(-6,0,0);
-            var estOffset = new TimeSpan(-4,0,0);
-
-            var commit = Commit().WithAuthor(new DateTimeOffset(datetime, cstOffset));
-            var predicate = OnOrAfter(new DateTimeOffset(datetime,estOffset).LocalDateTime);
+            var commit = Commit().WithAuthor(new DateTimeOffset(TestTime, CstOffset));
+            var predicate = OnOrAfter(new DateTimeOffset(TestTime, EstOffset).LocalDateTime);
             Assert.True(predicate(Diff(commit)));
         }
     }
