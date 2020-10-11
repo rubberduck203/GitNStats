@@ -1,6 +1,5 @@
 ﻿using System;
 using GitNStats.Core.Tests;
-using LibGit2Sharp;
 using Xunit;
 
 using static GitNStats.Core.Analysis;
