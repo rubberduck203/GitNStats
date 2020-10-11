@@ -26,10 +26,14 @@ namespace GitNStats.Tests.Analysis
             Assert.False(predicate(Diff(commit)));
         }
 
-        [Fact] public void GivenTimeInESTAndCommitWasInADT_ReturnsFalse()
+        [Fact]
+        public void GivenTimeInESTAndCommitWasInADT_ReturnsFalse()
         {
-            var commit = Commit().WithAuthor(DateTimeOffset.Parse("2017-06-21 13:30 -3:00"));
-            var predicate = OnOrAfter(new DateTime(2017, 6, 21, 13, 30, 0, DateTimeKind.Local));
+            var datetime = new DateTime(2017,6,21,13,30,0);
+            var adtOffset = new TimeSpan(-3,0,0);
+            var estOffset = new TimeSpan(-4,0,0);
+            var commit = Commit().WithAuthor(new DateTimeOffset(datetime, adtOffset));
+            var predicate = OnOrAfter(new DateTimeOffset(datetime,estOffset).LocalDateTime);
             Assert.False(predicate(Diff(commit)));
         }
 
