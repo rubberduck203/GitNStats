@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-framework=netcoreapp3.1
+framework=net5.0
 bin=src/gitnstats/bin/Release
 
 echo "Cleaning ${bin}"
