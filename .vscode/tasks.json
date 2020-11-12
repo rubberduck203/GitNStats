@@ -1,23 +1,39 @@
 {
-    "version": "0.1.0",
+    "version": "2.0.0",
     "command": "dotnet",
-    "isShellCommand": true,
     "args": [],
     "tasks": [
         {
-            "taskName": "build",
+            "label": "build",
+            "type": "shell",
             "args": [
+                "build",
                 "${workspaceRoot}/gitnstats.sln"
             ],
-            "isBuildCommand": true,
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "problemMatcher": "$msCompile"
         },
         {
-            "taskName": "test with coverage",
-            "isTestCommand": true,
-            "suppressTaskName": true,
-            "isShellCommand": true,
+            "label": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "args": [
+                "test",
+                "${workspaceRoot}/gitnstats.sln"
+            ],
+            "problemMatcher": "$msCompile",
+        },
+        {
+            "label": "test w/ coverage",
+            "group": "test",
+            "type": "shell",
             "command": "./test.sh",
+            "problemMatcher": "$msCompile",
         }
     ]
 }

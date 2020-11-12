@@ -178,13 +178,14 @@ Cmd + P -> `> Tasks: Run Test Task`
 Otherwise...
 
 ```bash
-dotnet test tests/gitnstats.test/gitnstats.test.csproj
+dotnet test
 ```
 
 ### Code Coverage
 
-If you use the Task Runner in VSCode, you can generate lcov reports and use the [lcov extension](https://marketplace.visualstudio.com/items?itemName=alexdima.vscode-lcov) to view the code coverage.
-Theoretically, [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters) should work too, but I was having difficulty getting it to work.
+If you use the `./test.sh` or `test w/ coverage` Task Runner in VSCode, you can generate lcov reports and use the [lcov extension](https://marketplace.visualstudio.com/items?itemName=alexdima.vscode-lcov) to view the code coverage.
+
+[Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters) will work too, but you need to tell it to look for the right file name.
 
 ## Publish
 
