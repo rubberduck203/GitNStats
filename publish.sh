@@ -2,20 +2,22 @@
 set -e
 
 framework=net5.0
-bin=src/gitnstats/bin/Release
+project_root=src/gitnstats
+project_path=${project_root}/gitnstats.csproj
+bin=${project_root}/bin/Release
 
 echo "Cleaning ${bin}"
 rm -rf ${bin}/**
 
 # build the list of runtimes by parsing the *.csproj for runtime identifiers
-IFS=';' read -ra runtimes <<< "$(grep '<RuntimeIdentifiers>' src/gitnstats/gitnstats.csproj | sed -e 's,.*<RuntimeIdentifiers>\([^<]*\)</RuntimeIdentifiers>.*,\1,g')"
+IFS=';' read -ra runtimes <<< "$(grep '<RuntimeIdentifiers>' ${project_path} | sed -e 's,.*<RuntimeIdentifiers>\([^<]*\)</RuntimeIdentifiers>.*,\1,g')"
 
 for runtime in ${runtimes[@]}; do
     echo "Restoring ${runtime}"
-    dotnet restore -r ${runtime}
+    dotnet restore -r ${runtime} ${project_path}
     
     echo "Packaging ${runtime}"
-    dotnet publish -c release -r ${runtime}
+    dotnet publish -c release -r ${runtime} -p:PublishSingleFile=true ${project_path}
     
     build=${bin}/${framework}/${runtime}
     publish=${build}/publish
