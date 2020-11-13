@@ -10,10 +10,10 @@ namespace GitNStats
         private const string RepoPathHelpText = "Path to the git repository to be analyzed. Defaults to the current working directory.";
         
         [Value(1, HelpText = RepoPathHelpText, MetaName = "FilePath")]
-        public string RepositoryPath { get; set; }
+        public string? RepositoryPath { get; set; }
         
         [Option('b', "branch", HelpText = "Defaults to the currently active branch.")]
-        public string BranchName { get; set; }
+        public string? BranchName { get; set; }
         
         [Option('d', "date-filter", HelpText = "Get commits on or after this date. Defaults to no filter.")]
         public DateTime? DateFilter { get; set; }

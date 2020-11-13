@@ -38,7 +38,7 @@ namespace GitNStats
             return RunAnalysis(repoPath, options.BranchName, filter);
         }
 
-        private async Task<Result> RunAnalysis(string repositoryPath, string branchName, DiffFilterPredicate diffFilter)
+        private async Task<Result> RunAnalysis(string repositoryPath, string? branchName, DiffFilterPredicate diffFilter)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace GitNStats
             }
         }
         
-        private static Branch Branch(string branchName, IRepository repo)
+        private static Branch Branch(string? branchName, IRepository repo)
         {
             // returns null if branch name is specified but doesn't exist
             return (branchName == null) ? repo.Head : repo.Branches[branchName];
