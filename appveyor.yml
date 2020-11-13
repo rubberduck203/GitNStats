@@ -1,4 +1,4 @@
-version: 2.2.0.{build}
+version: 2.3.0.{build}
 pull_requests:
   do_not_increment_build_number: true
 image: Visual Studio 2019 Preview
@@ -26,7 +26,7 @@ after_test:
       bash publish.sh
 
 artifacts:
-  - path: src/gitnstats/bin/Release/netcoreapp3.1/*.zip
+  - path: src/gitnstats/bin/release/net5.0/*.zip
 
 deploy:
   provider: GitHub
