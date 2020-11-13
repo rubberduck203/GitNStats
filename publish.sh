@@ -1,6 +1,25 @@
 #!/usr/bin/env bash
 set -e
 
+usage()
+{
+    echo "usage: publish [--skip-archive] | [-h]]"
+}
+
+archive=true
+while [ "$1" != "" ]; do
+    case $1 in
+        -s | --skip-archive )   archive=false
+                                ;;
+        -h | --help )           usage
+                                exit
+                                ;;
+        * )                     usage
+                                exit 1
+    esac
+    shift
+done
+
 framework=net5.0
 project_root=src/gitnstats
 project_path=${project_root}/gitnstats.csproj
@@ -28,12 +47,16 @@ for runtime in ${runtimes[@]}; do
         chmod +x ${exe}
     fi
     
-    # subshell so we can specify the archive's root directory
-    (
-        cd ${publish}
-        archive=../../${runtime}.zip
-        echo "Compressing to ${archive}"
-        7z a ${archive} ./
-    )
+    if $archive; then
+        # subshell so we can specify the archive's root directory
+        (
+            cd ${publish}
+            archive=../../${runtime}.zip
+            echo "Compressing to ${archive}"
+            7z a ${archive} ./
+        )
+    else
+        echo "Skipping archival"
+    fi
 done
 exit 0
