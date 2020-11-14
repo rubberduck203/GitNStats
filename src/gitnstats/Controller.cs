@@ -82,7 +82,7 @@ namespace GitNStats
             }
             return OnOrAfter;
             
-            bool NoFilter((Commit, TreeEntryChanges) diffs) => true;
+            static bool NoFilter((Commit, TreeEntryChanges) diffs) => true;
             bool OnOrAfter((Commit, TreeEntryChanges) diffs)
             {
                 // Datetime may come in in as "unspecified", we need to be sure it's specified 
