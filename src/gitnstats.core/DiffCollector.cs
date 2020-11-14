@@ -6,7 +6,7 @@ namespace GitNStats.Core
 {
     public interface AsyncVisitor
     {
-        Task<IEnumerable<(Commit Commit, TreeEntryChanges Diff)>> Walk(Commit commit);
+        Task<IEnumerable<CommitDiff>> Walk(Commit commit);
     }
 
     public class DiffCollector : AsyncVisitor
@@ -20,7 +20,7 @@ namespace GitNStats.Core
             _listener = listener;
         }
 
-        public Task<IEnumerable<(Commit Commit, TreeEntryChanges Diff)>> Walk(Commit commit)
+        public Task<IEnumerable<CommitDiff>> Walk(Commit commit)
         {
             return Task.Run(() =>
             {

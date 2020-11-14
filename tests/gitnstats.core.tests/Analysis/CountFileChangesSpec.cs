@@ -9,6 +9,7 @@ using Moq;
 
 using static GitNStats.Core.Analysis;
 using static GitNStats.Core.Tests.Fakes;
+using GitNStats.Core;
 
 namespace GitNStats.Tests.Analysis
 {
@@ -17,9 +18,9 @@ namespace GitNStats.Tests.Analysis
         [Fact]
         public void OneEntryIsCounted()
         {
-            var diffs = new List<(Commit, TreeEntryChanges)>()
+            var diffs = new List<CommitDiff>()
             {
-                (Fakes.Commit().Object, Fakes.TreeEntryChanges("path/to/file").Object),
+                new(Fakes.Commit().Object, Fakes.TreeEntryChanges("path/to/file").Object),
             };
             
             Assert.Equal(1, CountFileChanges(diffs).Single().Count);
@@ -28,10 +29,10 @@ namespace GitNStats.Tests.Analysis
         [Fact]
         public void TwoEntriesForSameFileAreCounted()
         {
-            var diffs = new List<(Commit, TreeEntryChanges)>()
+            var diffs = new List<CommitDiff>()
             {
-                (Fakes.Commit().Object, Fakes.TreeEntryChanges("path/to/file").Object),
-                (Fakes.Commit().Object, Fakes.TreeEntryChanges("path/to/file").Object),
+                new(Fakes.Commit().Object, Fakes.TreeEntryChanges("path/to/file").Object),
+                new(Fakes.Commit().Object, Fakes.TreeEntryChanges("path/to/file").Object),
             };
             
             Assert.Equal(2, CountFileChanges(diffs).Single().Count);
@@ -40,11 +41,11 @@ namespace GitNStats.Tests.Analysis
         [Fact]
         public void TwoEntriesForTwoDifferentFilesAreCountedSeparately()
         {
-            var diffs = new List<(Commit, TreeEntryChanges)>()
+            var diffs = new List<CommitDiff>()
             {
-                (Fakes.Commit().Object, Fakes.TreeEntryChanges("path/to/fileA").Object),
-                (Fakes.Commit().Object, Fakes.TreeEntryChanges("path/to/fileB").Object),
-                (Fakes.Commit().Object, Fakes.TreeEntryChanges("path/to/fileB").Object),
+                new(Fakes.Commit().Object, Fakes.TreeEntryChanges("path/to/fileA").Object),
+                new(Fakes.Commit().Object, Fakes.TreeEntryChanges("path/to/fileB").Object),
+                new(Fakes.Commit().Object, Fakes.TreeEntryChanges("path/to/fileB").Object),
             };
             
             Assert.Equal(1, CountFileChanges(diffs).Single(d => d.Path == "path/to/fileA").Count);
@@ -59,10 +60,10 @@ namespace GitNStats.Tests.Analysis
             fileB.SetupGet(d => d.Status).Returns(ChangeKind.Renamed);
             fileB.SetupGet(d => d.OldPath).Returns(fileA.Object.Path);
 
-            var diffs = new List<(Commit, TreeEntryChanges)>()
+            var diffs = new List<CommitDiff>()
             {
-                (Fakes.Commit().Object, fileA.Object),
-                (Fakes.Commit().Object, fileB.Object)
+                new(Fakes.Commit().Object, fileA.Object),
+                new(Fakes.Commit().Object, fileB.Object)
             };
 
             var pathCounts = CountFileChanges(diffs);

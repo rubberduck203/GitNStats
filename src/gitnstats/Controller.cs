@@ -38,7 +38,7 @@ namespace GitNStats
             return RunAnalysis(repoPath, options.BranchName, filter);
         }
 
-        private async Task<Result> RunAnalysis(string repositoryPath, string branchName, DiffFilterPredicate diffFilter)
+        private async Task<Result> RunAnalysis(string repositoryPath, string? branchName, DiffFilterPredicate diffFilter)
         {
             try
             {
@@ -82,8 +82,8 @@ namespace GitNStats
             }
             return OnOrAfter;
             
-            bool NoFilter((Commit, TreeEntryChanges) diffs) => true;
-            bool OnOrAfter((Commit, TreeEntryChanges) diffs)
+            static bool NoFilter(CommitDiff diffs) => true;
+            bool OnOrAfter(CommitDiff diffs)
             {
                 // Datetime may come in in as "unspecified", we need to be sure it's specified 
                 // to get accurate comparisons to a commit's DateTimeOffset
@@ -91,7 +91,7 @@ namespace GitNStats
             }
         }
         
-        private static Branch Branch(string branchName, IRepository repo)
+        private static Branch Branch(string? branchName, IRepository repo)
         {
             // returns null if branch name is specified but doesn't exist
             return (branchName == null) ? repo.Head : repo.Branches[branchName];

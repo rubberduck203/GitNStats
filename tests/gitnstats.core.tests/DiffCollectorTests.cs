@@ -25,9 +25,9 @@ namespace GitNStats.Tests.Visitor
             listener.Setup(l => l.OnCommitVisited(It.IsAny<Core.Visitor>(), It.IsAny<Commit>()))
                 .Callback(()=> 
                     listener.SetupGet(l => l.Diffs)
-                        .Returns(new List<(Commit, TreeEntryChanges)>()
+                        .Returns(new List<CommitDiff>()
                         {
-                            (commit, new Mock<TreeEntryChanges>().Object)
+                            new(commit, new Mock<TreeEntryChanges>().Object)
                         })
                     );
             
