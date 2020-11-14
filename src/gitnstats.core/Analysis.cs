@@ -42,7 +42,7 @@ namespace GitNStats.Core
 
     static class DictionaryExtensions
     {
-        public static V GetOrDefault<K,V>(this Dictionary<K,V> dictionary, K key, V defaultValue)
+        public static V GetOrDefault<K,V>(this Dictionary<K,V> dictionary, K key, V defaultValue) where K : notnull
         {
             return dictionary.TryGetValue(key, out V value) ? value : defaultValue;
         }
