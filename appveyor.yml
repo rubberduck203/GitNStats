@@ -8,20 +8,17 @@ environment:
     secure: XqcH4XNIcPF1EAuxfTCmhxV4f4GlLbcYMwY9awynisZu860oD8kb79jyrNzhspU6
 build_script:
 - cmd: >-
-    dotnet restore
+    dotnet build -c release
 
-    dotnet build -c Release
 test_script:
-- cmd: >-
-    dotnet test tests/gitnstats.test/gitnstats.test.csproj /p:CollectCoverage=true /p:Exclude=\"[gitnstats.core]*,[gitnstats.core.tests]*,[gitnstats]GitNStats.CliView,[gitnstats]GitNStats.Program,[gitnstats]GitNStats.Options,[gitnstats]GitNStats.FileSystem\" /p:CoverletOutput=./bin/coverage.xml /p:CoverletOutputFormat="opencover"
-    
-    dotnet test tests/gitnstats.core.tests/gitnstats.core.tests.csproj /p:CollectCoverage=true /p:CoverletOutput=./bin/coverage.xml /p:CoverletOutputFormat="opencover"
+- ps: >-
+    bash test.sh
 
 after_test:
   - ps: |
       $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
       Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
-      bash codecov.sh -f "tests/gitnstats.test/bin/coverage.xml" -f "tests/gitnstats.core.tests/bin/coverage.xml" -t $env:CODECOV_TOKEN
+      bash codecov.sh -f "tests/gitnstats.test/bin/coverage.opencover.xml" -f "tests/gitnstats.core.tests/bin/coverage.opencover.xml" -t $env:CODECOV_TOKEN
 
       bash publish.sh
 
