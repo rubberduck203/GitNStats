@@ -5,6 +5,8 @@ using LibGit2Sharp;
 
 namespace GitNStats.Core
 {
+    public record PathCount(string Path, int Count);
+
     public delegate bool DiffFilterPredicate((Commit Commit, TreeEntryChanges TreeEntryChanges) diff);
     
     public static class Analysis
