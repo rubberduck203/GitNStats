@@ -1,4 +1,5 @@
-#! /bin/bash
+#!/usr/bin/env bash
+set -e
 
 dotnet test tests/gitnstats.test/gitnstats.test.csproj \
     /p:CollectCoverage=true \
