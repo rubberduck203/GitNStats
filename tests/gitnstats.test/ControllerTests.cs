@@ -144,7 +144,7 @@ namespace gitnstats.test
         [Fact]
         public async Task DisplaysPathCounts()
         {
-            var diffs = Enumerable.Empty<(Commit, TreeEntryChanges)>();
+            var diffs = Enumerable.Empty<CommitDiff>();
 
             _asyncVisitor.Setup(v => v.Walk(It.IsAny<Commit>()))
                 .Returns(Task.FromResult(diffs));
@@ -167,7 +167,7 @@ namespace gitnstats.test
             
             var result = await _controller.RunAnalysis(new Options(){DateFilter = DateTime.Parse("2017-07-21")});
 
-            var pathCounts = Analysis.CountFileChanges(Enumerable.Empty<(Commit, TreeEntryChanges)>());
+            var pathCounts = Analysis.CountFileChanges(Enumerable.Empty<CommitDiff>());
             _view.Verify(v => v.DisplayPathCounts(pathCounts));
             Assert.Equal(Result.Success, result);            
         }

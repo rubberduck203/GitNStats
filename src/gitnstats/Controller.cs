@@ -82,8 +82,8 @@ namespace GitNStats
             }
             return OnOrAfter;
             
-            static bool NoFilter((Commit, TreeEntryChanges) diffs) => true;
-            bool OnOrAfter((Commit, TreeEntryChanges) diffs)
+            static bool NoFilter(CommitDiff diffs) => true;
+            bool OnOrAfter(CommitDiff diffs)
             {
                 // Datetime may come in in as "unspecified", we need to be sure it's specified 
                 // to get accurate comparisons to a commit's DateTimeOffset

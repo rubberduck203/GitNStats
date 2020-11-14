@@ -12,7 +12,7 @@ namespace GitNStats.Core
         /// The diff cache. 
         /// Clients should wait until the <see cref="Visitor"/> is done walking the graph before accessing.
         /// </summary>
-        IEnumerable<(Commit Commit, TreeEntryChanges Diff)> Diffs { get; }
+        IEnumerable<CommitDiff> Diffs { get; }
     }
 
     /// <summary>
@@ -22,13 +22,13 @@ namespace GitNStats.Core
     public class DiffListener : IDiffListener
     {
         private readonly IRepository _repository;
-        private readonly ConcurrentBag<(Commit, TreeEntryChanges)> _diffs = new ConcurrentBag<(Commit, TreeEntryChanges)>();
+        private readonly ConcurrentBag<CommitDiff> _diffs = new();
         
         /// <summary>
         /// The diff cache. 
         /// Clients should wait until the <see cref="Visitor"/> is done walking the graph before accessing.
         /// </summary>
-        public IEnumerable<(Commit Commit, TreeEntryChanges Diff)> Diffs => _diffs;
+        public IEnumerable<CommitDiff> Diffs => _diffs;
 
         public DiffListener(IRepository repository)
         {
@@ -48,7 +48,7 @@ namespace GitNStats.Core
                 
                 foreach (var changed in diff)
                 {
-                    _diffs.Add((visited, changed));
+                    _diffs.Add(new CommitDiff(visited, changed));
                 }
             }
         }

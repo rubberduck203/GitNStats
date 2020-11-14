@@ -6,14 +6,15 @@ using LibGit2Sharp;
 namespace GitNStats.Core
 {
     public record PathCount(string Path, int Count);
+    public record CommitDiff(Commit Commit, TreeEntryChanges Diff);
 
-    public delegate bool DiffFilterPredicate((Commit Commit, TreeEntryChanges TreeEntryChanges) diff);
+    public delegate bool DiffFilterPredicate(CommitDiff diff);
     
     public static class Analysis
     {
-        public static IEnumerable<PathCount> CountFileChanges(IEnumerable<(Commit, TreeEntryChanges)> diffs)
+        public static IEnumerable<PathCount> CountFileChanges(IEnumerable<CommitDiff> diffs)
         {
-            return diffs.Aggregate<(Commit Commit, TreeEntryChanges Diff), Dictionary<string, int>>(
+            return diffs.Aggregate<CommitDiff, Dictionary<string, int>>(
                 new Dictionary<string, int>(), //filename, count
                 (acc, x) => {
                     /* OldPath == NewPath when file was created or removed,

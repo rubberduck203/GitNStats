@@ -79,23 +79,18 @@ namespace GitNStats.Core.Tests
             return treeChanges;
         }
 
-        public static IEnumerable<(Commit, TreeEntryChanges)> Diffs(Mock<Commit> commit)
+        public static IEnumerable<CommitDiff> Diffs(Mock<Commit> commit)
         {
-            var diffs = new List<(Commit, TreeEntryChanges)>()
+            return new List<CommitDiff>()
             {
                 Diff(commit)
             };
-            return diffs;
         }
 
-        public static (Commit, TreeEntryChanges) Diff(Mock<Commit> commit)
-        {
-            return (commit.Object, TreeEntryChanges("path/to/file").Object);
-        }
+        public static CommitDiff Diff(Mock<Commit> commit) =>
+            new(commit.Object, TreeEntryChanges("path/to/file").Object);
 
-        public static Signature Signature(DateTimeOffset dateTimeOffset)
-        {
-            return new Signature("rubberduck", "rubberduck@example.com", dateTimeOffset);
-        }
+        public static Signature Signature(DateTimeOffset dateTimeOffset) =>
+            new("rubberduck", "rubberduck@example.com", dateTimeOffset);
     }
 }
