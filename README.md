@@ -140,13 +140,13 @@ Symoblic linking to a location already on the PATH (like `/usr/local/bin/`) is r
 ```bash
 # Download release (replace version and runtime accordingly)
 cd ~/Downloads
-wget https://github.com/rubberduck203/GitNStats/releases/download/2.2.0/osx.10.12-x64.zip
+wget https://github.com/rubberduck203/GitNStats/releases/download/2.3.0/osx-x64.zip
 
 # Create directory to keep package
 mkdir -p ~/bin/gitnstats
 
 # unzip
-unzip osx.10.12-x64.zip -d ~/bin/gitnstats
+unzip osx-x64.zip -d ~/bin/gitnstats
 
 # Create symlink
 ln -s /Users/rubberduck/bin/gitnstats/gitnstats /usr/local/bin/gitnstats
