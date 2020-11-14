@@ -23,7 +23,7 @@ namespace GitNStats.Core
             //WithStopWatch(() => Walk(commit, new HashSet<string>()), "Total Time Walking Graph: {0}");
         }
 
-        private Object padlock = new Object();
+        private Object padlock = new();
         private void Walk(Commit commit, ISet<string> visitedCommits)
         {
             // It's not safe to concurrently write to the Set.
