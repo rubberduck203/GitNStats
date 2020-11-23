@@ -140,7 +140,7 @@ Symoblic linking to a location already on the PATH (like `/usr/local/bin/`) is r
 ```bash
 # Download release (replace version and runtime accordingly)
 cd ~/Downloads
-wget https://github.com/rubberduck203/GitNStats/releases/download/2.3.0/osx-x64.zip
+wget https://github.com/rubberduck203/GitNStats/releases/download/2.3.1/osx-x64.zip
 
 # Create directory to keep package
 mkdir -p ~/bin/gitnstats
